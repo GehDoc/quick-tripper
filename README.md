@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quick-tripper 🚏
 
-## Getting Started
+[![Hosting](https://img.shields.io/badge/Hosted_on-GitHub_Pages-blue?logo=github)](https://gehdoc.github.io/quick-tripper)
+[![Framework](https://img.shields.io/badge/Built_with-React-61DAFB?logo=react)](https://react.dev)
+[![AI](https://img.shields.io/badge/AI_Model-Llama_3-7B1FA2?logo=meta)](https://huggingface.co)
 
-First, run the development server:
+**Quick-tripper** is a privacy-first, zero-backend travel companion web app that generates detailed road trip itineraries using AI. It operates entirely in your browser—no databases, no logins, no tracking.
+
+## ✨ Features
+
+- **🌍 Smart Itineraries**: Generate day-by-day travel plans using Llama 3 via the Hugging Face Router.
+- **🗺️ Interactive Maps**: Embedded Google Maps for every journey, secured via client-side validation.
+- **🔒 Privacy-First**: "Bring Your Own Key" (BYOK) model. Your API token is stored locally in your browser and never sent to our servers.
+- **🔗 Compressed Sharing**: Share your entire itinerary via a single, ultra-compressed URL (powered by LZString). No backend storage required.
+- **💾 Local Persistence**: Automatic synchronization with your browser's local storage.
+- **🚀 Serverless Architecture**: Designed to be hosted on static platforms like GitHub Pages.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15+](https://nextjs.org) (App Router)
+- **Styling**: [TailwindCSS 4](https://tailwindcss.com) + [DaisyUI 5](https://daisyui.com)
+- **AI Integration**: [Hugging Face Router](https://huggingface.co/docs/hub/spaces-router) (OpenAI-compatible)
+- **Data Compression**: [LZString](https://pieroxy.net/lua/lz-string/index.html)
+- **Icons**: [Lucide React](https://lucide.dev)
+
+## 🚀 Getting Started
+
+1. **Get an API Key**: Obtain a free User Access Token from [Hugging Face Settings](https://huggingface.co/settings/tokens).
+2. **Clone the Repo**:
+   ```bash
+   git clone https://github.com/gehdoc/quick-tripper.git
+   cd quick-tripper
+   ```
+3. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+4. **Run Locally**:
+   ```bash
+   npm run dev
+   ```
+5. **Open the App**: Visit `http://localhost:3000` and enter your API key in the top bar.
+
+## 📦 Deployment
+
+This project is optimized for static hosting on **GitHub Pages**:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run deploy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*Note: This command runs `next build` with `output: 'export'` and pushes the `out` directory to the `gh-pages` branch.*
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📄 License
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT © [Quick-tripper](https://github.com/gehdoc/quick-tripper)

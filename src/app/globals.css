@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* In v4, keep your plugin overrides in standard utility utility scopes 
+  if you want to avoid strict build-time reference check crashes.
+*/
+body {
+  background-color: var(--bg-base-200, #f2f2f2);
+  color: var(--fallback-bc, initial);
+  min-height: 100vh;
+}
