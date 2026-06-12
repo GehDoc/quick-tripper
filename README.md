@@ -1,5 +1,7 @@
 # Quick-tripper 🚏
 
+**Live Site: [https://gehdoc.github.io/quick-tripper/](https://gehdoc.github.io/quick-tripper/)**
+
 [![Hosting](https://img.shields.io/badge/Hosted_on-GitHub_Pages-blue?logo=github)](https://gehdoc.github.io/quick-tripper)
 [![Framework](https://img.shields.io/badge/Built_with-React-61DAFB?logo=react)](https://react.dev)
 [![AI](https://img.shields.io/badge/AI_Model-Llama_3-7B1FA2?logo=meta)](https://huggingface.co)
