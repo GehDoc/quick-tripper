@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d out"
+    "predeploy": "rm -rf out && npm run build && rm -f out/__next* out/*.txt out/_not-found.html out/_not-found.txt",
+    "deploy": "gh-pages -d out --nojekyll"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.20",
