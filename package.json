@@ -2,6 +2,28 @@
   "name": "quick-tripper",
   "version": "0.1.0",
   "private": true,
+  "description": "Privacy-first, zero-backend AI travel companion",
+  "author": "GehDoc",
+  "license": "MIT",
+  "homepage": "https://gehdoc.github.io/quick-tripper/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gehdoc/quick-tripper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gehdoc/quick-tripper/issues"
+  },
+  "keywords": [
+    "nextjs",
+    "ai",
+    "travel",
+    "serverless",
+    "privacy-first",
+    "huggingface",
+    "itinerary-planner",
+    "google-maps",
+    "tailwind-css"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
