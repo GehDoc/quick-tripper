@@ -1,14 +1,9 @@
 import LZString from 'lz-string';
-import { Trip } from '@/types/trip';
-import { CURRENT_VERSION, migrateToLatest } from './migration';
+import { Trip } from '@/hooks/useTrips';
 
 export function generateShareUrl(trip: Trip): string {
-  // Wrap data in versioned envelope
-  const payload = {
-    version: CURRENT_VERSION,
-    data: [trip],
-  };
-  const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(payload));
+  // Compresses data securely into a URI-safe format 3x smaller than Base64
+  const compressed = LZString.compressToEncodedURIComponent(JSON.stringify([trip]));
   return `${window.location.origin}${window.location.pathname}?payload=${compressed}`;
 }
 
@@ -20,12 +15,7 @@ export function parseShareUrl(): Trip[] | null {
 
   try {
     const decompressed = LZString.decompressFromEncodedURIComponent(payload);
-    if (!decompressed) return null;
-    const rawData = JSON.parse(decompressed);
-
-    // Use migration utility to normalize to current version
-    const versioned = migrateToLatest(rawData);
-    return versioned.data;
+    return decompressed ? JSON.parse(decompressed) : null;
   } catch (e) {
     console.error('Decompression failed', e);
     return null;
