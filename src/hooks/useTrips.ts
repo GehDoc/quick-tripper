@@ -9,35 +9,30 @@ export interface Trip {
 }
 
 export function useTrips() {
-  const [trips, setTrips] = useState<Trip[]>([]);
+  const [trips, setTrips] = useState<Trip[]>(() => {
+    if (typeof window === 'undefined') return [];
+
+    // 1. Load from LocalStorage
+    const saved = localStorage.getItem('saved_trips');
+    const initialTrips: Trip[] = saved ? JSON.parse(saved) : [];
+
+    // 2. Check for shared URL payloads
+    const sharedTrips = parseShareUrl();
+    if (!sharedTrips) return initialTrips;
+
+    // Merge shared trips with existing ones
+    const merged = [...sharedTrips, ...initialTrips];
+    localStorage.setItem('saved_trips', JSON.stringify(merged));
+    return merged;
+  });
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  // Initialize data: Hydrate from LocalStorage and parse shared URL payloads
+  // Initialize: Clean URL params on mount
   useEffect(() => {
-    // 1. Load from LocalStorage
-    const savedTrips = localStorage.getItem('saved_trips');
-    let initialTrips: Trip[] = [];
-    if (savedTrips) {
-      try {
-        initialTrips = JSON.parse(savedTrips);
-      } catch (e) {
-        console.error('Failed to parse saved trips', e);
-      }
-    }
-
-    // 2. Check for shared URL payloads (higher priority for view)
-    const sharedTrips = parseShareUrl();
-    if (sharedTrips) {
-      // Merge shared trips with existing ones, avoiding duplicates if necessary
-      // For simplicity, we add them to the top
-      const merged = [...sharedTrips, ...initialTrips];
-      setTrips(merged);
-      localStorage.setItem('saved_trips', JSON.stringify(merged));
-
-      // Clean URL params without reload
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('payload')) {
       window.history.replaceState({}, document.title, window.location.pathname);
-    } else {
-      setTrips(initialTrips);
     }
   }, []);
 

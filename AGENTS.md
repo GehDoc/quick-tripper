@@ -33,4 +33,5 @@ Before writing any implementation code, agents must:
 - ⚪ **Archived**: Superseded or canceled.
 
 ---
-*Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed workflow instructions.*
+
+_Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed workflow instructions._

@@ -14,7 +14,7 @@ export default function NotFound() {
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Route Not Found</h1>
           <p className="text-base-content/60 leading-relaxed">
-            It looks like this destination isn't on our map. The link might be broken or the
+            It looks like this destination isn&apos;t on our map. The link might be broken or the
             itinerary was removed.
           </p>
         </div>

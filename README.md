@@ -15,6 +15,8 @@
 - **🔒 Privacy-First**: "Bring Your Own Key" (BYOK) model. Your API token is stored locally in your browser and never sent to our servers.
 - **🔗 Compressed Sharing**: Share your entire itinerary via a single, ultra-compressed URL (powered by LZString). No backend storage required.
 - **💾 Local Persistence**: Automatic synchronization with your browser's local storage.
+- **🚦 Quality Control**: Pre-commit hooks via Husky and lint-staged to ensure type safety and code style.
+- **🧪 Automated Testing**: Unit and utility testing powered by Vitest and JSDOM.
 - **🚀 Serverless Architecture**: Designed to be hosted on static platforms like GitHub Pages.
 
 ## 🛠️ Tech Stack
@@ -23,7 +25,15 @@
 - **Styling**: [TailwindCSS 4](https://tailwindcss.com) + [DaisyUI 5](https://daisyui.com)
 - **AI Integration**: [Hugging Face Router](https://huggingface.co/docs/hub/spaces-router) (OpenAI-compatible)
 - **Data Compression**: [LZString](https://pieroxy.net/lua/lz-string/index.html)
-- **Icons**: [Lucide React](https://lucide.dev)
+- **Testing**: [Vitest](https://vitest.dev) + [React Testing Library](https://testing-library.com)
+- **Automation**: [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged)
+
+## 🔄 Development Workflow (SDD)
+
+This project follows **Spec-Driven Development (SDD)** to maintain a clear roadmap and high technical standards. Before implementing a new feature, a technical specification must be drafted and approved.
+
+- **For Contributors**: See **[CONTRIBUTING.md](./CONTRIBUTING.md)** for workflow and commands.
+- **For AI Agents**: Follow the **[AGENTS.md](./AGENTS.md)** protocol.
 
 ## 🚀 Getting Started
 
@@ -42,6 +52,15 @@
    npm run dev
    ```
 5. **Open the App**: Visit `http://localhost:3000` and enter your API key in the top bar.
+
+## 🧪 Quality & Integrity Strategy
+
+To maintain a robust "zero-backend" application, we rely on a multi-tiered validation strategy:
+
+1. **Static Analysis**: ESLint and Prettier ensure code consistency and catch early errors.
+2. **Type Safety**: Strict TypeScript is enforced at the commit level via Husky hooks.
+3. **Unit Testing**: Vitest and JSDOM validate core logic and utility functions (e.g., URL compression).
+4. **Spec-First Implementation**: Every change is traced back to a technical specification, ensuring architectural alignment.
 
 ## 📦 Deployment
 

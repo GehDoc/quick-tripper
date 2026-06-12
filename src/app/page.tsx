@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import {
@@ -26,15 +26,12 @@ export default function Home() {
     useTrips();
 
   // Component-specific UI states
-  const [apiKey, setApiKey] = useState<string>('');
+  const [apiKey, setApiKey] = useState<string>(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('hf_api_key') || '' : '',
+  );
   const [prompt, setPrompt] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-
-  // Hydrate local UI states from local storage safely on mount
-  useEffect(() => {
-    setApiKey(localStorage.getItem('hf_api_key') || '');
-  }, []);
 
   const handleApiKeyChange = (key: string) => {
     const trimmedKey = key.trim();
@@ -63,8 +60,10 @@ export default function Home() {
       ]);
 
       setPrompt('');
-    } catch (err: any) {
-      setError(err.message || 'An error occurred during generation.');
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'An error occurred during generation.';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

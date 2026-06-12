@@ -11,32 +11,43 @@ Thank you for your interest in contributing! We follow a **Spec-Driven Developme
 ## 🔄 Development Workflow
 
 ### 1. The Spec-First Rule
+
 Before coding a new feature or fix:
+
 - Create a Markdown file in `specs/pending/XX-description.md`.
 - Define the **Goal**, **User Story**, and **Technical Strategy**.
 - List specific **Tasks** and **Verification Steps**.
 
 ### 2. Quality Control
+
 Before submitting a Pull Request, ensure the following checks pass:
+
 ```bash
 npm run check
 ```
+
 This command runs:
+
 - **Linting**: ESLint (Next.js config).
 - **Formatting**: Prettier.
 - **Type Checking**: TypeScript (`tsc --noEmit`).
 - **Unit Tests**: Vitest.
 
 ### 3. Commit Guidelines
+
 - We use **Husky** to prevent broken commits. Your commit will fail if there are TypeScript errors.
 - Use **Conventional Commits** (e.g., `feat: ...`, `fix: ...`, `docs: ...`).
 
-## 🛠 Commands
+## 🛠 Development Commands
 
-- `npm run dev`: Start development server.
-- `npm run fix`: Auto-fix linting and formatting.
-- `npm run test`: Run unit tests.
-- `npm run type-check`: Validate TypeScript types.
+| Command              | Description                                          |
+| :------------------- | :--------------------------------------------------- |
+| `npm run check`      | Full suite: Lint, Format, Type-check, and Unit tests |
+| `npm run check:fast` | Fast checks: Lint, Format, and Type-check            |
+| `npm run fix`        | Automatically fix linting and formatting issues      |
+| `npm run test`       | Run unit tests with Vitest                           |
+| `npm run type-check` | Validate TypeScript types                            |
 
 ---
-*For AI Agents, please follow the [AGENTS.md](./AGENTS.md) protocol.*
+
+_For AI Agents, please follow the [AGENTS.md](./AGENTS.md) protocol._
