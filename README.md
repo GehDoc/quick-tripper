@@ -51,7 +51,7 @@ This project is optimized for static hosting on **GitHub Pages**:
 npm run deploy
 ```
 
-*Note: This command runs `next build` with `output: 'export'` and pushes the `out` directory to the `gh-pages` branch.*
+_Note: This command runs `next build` with `output: 'export'` and pushes the `out` directory to the `gh-pages` branch._
 
 ## 📄 License
 

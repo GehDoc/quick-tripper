@@ -14,13 +14,14 @@ export default function NotFound() {
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Route Not Found</h1>
           <p className="text-base-content/60 leading-relaxed">
-            It looks like this destination isn't on our map. The link might be broken or the itinerary was removed.
+            It looks like this destination isn't on our map. The link might be broken or the
+            itinerary was removed.
           </p>
         </div>
 
         <div className="pt-4">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="btn btn-primary btn-wide gap-2 normal-case shadow-lg hover:scale-[1.02] transition-transform"
           >
             <Home className="w-4 h-4" />

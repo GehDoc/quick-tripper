@@ -29,8 +29,22 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run lint && npm run format && npm run type-check && npm run test",
+    "check:fast": "npm run lint && npm run format && npm run type-check",
+    "fix": "npm run lint:fix && npm run format:fix",
     "predeploy": "rm -rf out && npm run build && rm -f out/__next* out/*.txt out/_not-found.html out/_not-found.txt",
-    "deploy": "gh-pages -d out --nojekyll"
+    "deploy": "gh-pages -d out --nojekyll",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*.{js,mjs,ts,tsx,json,md,yml,html,css,scss}": "prettier --write",
+    "src/**/*.{ts,tsx}": "eslint --fix"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.20",
@@ -45,14 +59,25 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/lz-string": "^1.3.34",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
     "gh-pages": "^6.3.0",
+    "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
+    "lint-staged": "^17.0.7",
+    "prettier": "^3.8.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.61.0",
+    "vitest": "^4.1.8"
   }
 }

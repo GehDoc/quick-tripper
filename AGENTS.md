@@ -1,5 +1,36 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# Quick-tripper AI Agent Protocol 🤖
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+This project follows a strict **Spec-Driven Development (SDD)** workflow. Agents must prioritize system integrity, type safety, and architectural consistency.
+
+## 🧭 Operational Context
+
+- **Branding**: The project is named **Quick-tripper**. Avoid using any other name.
+- **Architecture**: Zero-backend, privacy-first Next.js (App Router) application.
+- **Styling**: TailwindCSS 4 + DaisyUI 5. NO inline styles in production components.
+- **AI Integration**: Client-side via Hugging Face Router.
+
+## 🔄 SDD Workflow (Mandatory)
+
+Before writing any implementation code, agents must:
+
+1.  **Research**: Map the current state and identify all touchpoints.
+2.  **Plan (Spec)**: Create a new specification file in `specs/pending/`.
+3.  **Approve**: Present the plan to the user and wait for explicit approval.
+4.  **Execute**: Implement surgical changes following the approved plan.
+5.  **Validate**: Run `npm run check` to ensure zero regressions.
+
+## 🛠 Tech Stack Constraints
+
+- **Type Safety**: No `any`. Use strict TypeScript.
+- **Testing**: Vitest + React Testing Library. All new features require unit tests.
+- **Git**: Never commit without running `npm run type-check`. Pre-commit hooks are enforced.
+
+## 📊 Status Flags
+
+- 🔴 **Pending**: Research or planning phase.
+- 🟡 **In Progress**: Implementation phase.
+- 🟢 **Completed**: Implementation verified and merged.
+- ⚪ **Archived**: Superseded or canceled.
+
+---
+*Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed workflow instructions.*

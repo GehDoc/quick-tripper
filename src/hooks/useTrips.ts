@@ -21,7 +21,7 @@ export function useTrips() {
       try {
         initialTrips = JSON.parse(savedTrips);
       } catch (e) {
-        console.error("Failed to parse saved trips", e);
+        console.error('Failed to parse saved trips', e);
       }
     }
 
@@ -33,7 +33,7 @@ export function useTrips() {
       const merged = [...sharedTrips, ...initialTrips];
       setTrips(merged);
       localStorage.setItem('saved_trips', JSON.stringify(merged));
-      
+
       // Clean URL params without reload
       window.history.replaceState({}, document.title, window.location.pathname);
     } else {
@@ -42,7 +42,7 @@ export function useTrips() {
   }, []);
 
   const addTrips = (newTrips: Trip[]) => {
-    setTrips(prev => {
+    setTrips((prev) => {
       const merged = [...newTrips, ...prev];
       localStorage.setItem('saved_trips', JSON.stringify(merged));
       return merged;
@@ -51,7 +51,7 @@ export function useTrips() {
   };
 
   const deleteTrip = (id: string) => {
-    const updated = trips.filter(t => t.id !== id);
+    const updated = trips.filter((t) => t.id !== id);
     setTrips(updated);
     localStorage.setItem('saved_trips', JSON.stringify(updated));
     // Reset index to 0 to avoid out of bounds if the last item was deleted
@@ -65,6 +65,6 @@ export function useTrips() {
     setActiveIndex,
     addTrips,
     deleteTrip,
-    totalTrips: trips.length
+    totalTrips: trips.length,
   };
 }

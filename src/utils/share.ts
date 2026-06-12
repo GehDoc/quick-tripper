@@ -17,7 +17,7 @@ export function parseShareUrl(): Trip[] | null {
     const decompressed = LZString.decompressFromEncodedURIComponent(payload);
     return decompressed ? JSON.parse(decompressed) : null;
   } catch (e) {
-    console.error("Decompression failed", e);
+    console.error('Decompression failed', e);
     return null;
   }
 }

@@ -32,34 +32,30 @@ STRUCTURE STRICTE À RESPECTER POUR CHAQUE ITINÉRAIRE :
 [Rédige un récit vivant, fluide et immersif à la première personne du pluriel, en développant les activités et le cadre fournis par l'utilisateur].
 `.trim();
 
-export async function generateItinerary({ 
-  apiKey, 
-  prompt, 
-}: GenerationOptions): Promise<string> {
-  
+export async function generateItinerary({ apiKey, prompt }: GenerationOptions): Promise<string> {
   // Calling the Hugging Face Router endpoint directly (OpenAI compatible)
   // This allows the app to work on static hosting like GitHub Pages
-  const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
-    method: "POST",
-    headers: { 
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json" 
+  const response = await fetch('https://router.huggingface.co/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: "meta-llama/Llama-3.1-8B-Instruct",
+      model: 'meta-llama/Llama-3.1-8B-Instruct',
       messages: [
         {
-          role: "system",
-          content: SYSTEM_PROMPT
+          role: 'system',
+          content: SYSTEM_PROMPT,
         },
         {
-          role: "user",
-          content: prompt
-        }
+          role: 'user',
+          content: prompt,
+        },
       ],
       temperature: 0.2,
       max_tokens: 2048,
-      stream: false
+      stream: false,
     }),
   });
 
@@ -69,12 +65,12 @@ export async function generateItinerary({
   }
 
   const data = await response.json();
-  
+
   // Extract content from OpenAI-compatible Chat Completion structure
   const content = data.choices?.[0]?.message?.content;
-  
+
   if (!content) {
-    throw new Error("No itinerary content received from the AI.");
+    throw new Error('No itinerary content received from the AI.');
   }
 
   return content;
