@@ -39,3 +39,17 @@ When the `Trip` data structure changes in a breaking way, follow these steps to 
     - Ensure that any new properties or structural changes are handled during the hook's initialization or `addTrips`/`deleteTrip` methods if needed.
 5.  **Test**:
     - Add test cases in `src/tests/migration.test.ts` to verify the upgrade path from `v<N-1>` to `v<N>`.
+
+## SSR and Hydration Strategy
+
+To maintain a "zero-backend" architecture using Next.js (SSR), we must ensure that the server-rendered HTML and client-rendered UI are identical during the initial mount.
+
+### The "Empty-First" Hydration Pattern
+
+1.  **Initial State**: All components using `localStorage` or browser-native APIs must initialize with a default "empty" state (e.g., `[]` for trips, `''` for API keys).
+2.  **Server Rendering**: The server renders the page using these empty defaults.
+3.  **Client Hydration**: The client initially renders the same empty state, preventing a mismatch.
+4.  **Client Mounting**: After the component mounts on the client, a `useEffect` hook is triggered to safely read from `localStorage` and update the state.
+5.  **Re-render**: React performs a controlled update, populating the UI with the retrieved data.
+
+_This pattern is mandatory for all components accessing persistent browser storage to avoid React hydration errors._
