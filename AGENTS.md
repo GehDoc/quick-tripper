@@ -17,7 +17,11 @@ Before writing any implementation code, agents must:
 2.  **Plan (Spec)**: Create a new specification file in `specs/pending/`.
 3.  **Approve**: Present the plan to the user and wait for explicit approval.
 4.  **Execute**: Implement surgical changes following the approved plan.
-5.  **Validate**: Run `npm run check` to ensure zero regressions.
+    - **Branching**: Always create a feature branch (`feat/name`) or fix branch (`fix/name`) before execution.
+    - **Incrementality**: Extract/Implement one logical unit (e.g., one component) at a time.
+    - **Test-Driven**: Write unit tests for each unit immediately after creation.
+    - **Atomic Commits**: Commit and push each successful "Unit + Test" cycle.
+5.  **Validate**: Run `npm run check` to ensure zero regressions before final PR.
 
 ## 🛠 Tech Stack Constraints
 
