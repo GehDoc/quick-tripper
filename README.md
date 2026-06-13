@@ -55,7 +55,7 @@ This project follows **Spec-Driven Development (SDD)** to maintain a clear roadm
 
 ## 🏗️ Architecture
 
-For a detailed look at the system design, core modules, and data contract versioning, see: **[ARCHITECTURE.md](./ARCHITECTURE.md)**.
+For a detailed look at the system design, core modules, and data contract versioning, see: **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)**.
 
 ## 🧪 Quality & Integrity Strategy
 
