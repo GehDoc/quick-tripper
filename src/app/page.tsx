@@ -21,6 +21,7 @@ import { generateItinerary } from '@/services/ai';
 import { generateShareUrl } from '@/utils/share';
 import { VERSION, REPO_URL } from '@/utils/version';
 import { Logo } from '@/components/Logo';
+import { EmptyState } from '@/components/EmptyState';
 
 export default function Home() {
   const {
@@ -298,13 +299,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="alert shadow-xl bg-base-100 border border-dashed text-center flex flex-col p-8 gap-1">
-            <h3 className="font-bold text-lg">No active itineraries loaded</h3>
-            <p className="text-xs text-base-content/60">
-              Generate a route using your client API key or drop an imported file to populate the
-              board.
-            </p>
-          </div>
+          <EmptyState />
         )}
       </div>
     </div>
