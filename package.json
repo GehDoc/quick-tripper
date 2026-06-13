@@ -42,8 +42,8 @@
     "check": "npm run lint && npm run format && npm run type-check && npm run test",
     "check:fast": "npm run lint && npm run format && npm run type-check",
     "fix": "npm run lint:fix && npm run format:fix",
-    "predeploy": "rm -rf out && npm run build && rm -f out/__next* out/*.txt out/_not-found.html out/_not-found.txt",
-    "deploy": "gh-pages -d out --nojekyll",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out",
     "prepare": "husky"
   },
   "lint-staged": {
