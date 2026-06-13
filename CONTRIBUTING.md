@@ -66,3 +66,7 @@ A contribution is only considered complete when it satisfies all of the followin
 ### 3. Documentation
 
 - If the feature introduces new functionality, ensure it is documented in `README.md` and/or `docs/ARCHITECTURE.md`.
+
+---
+
+_For AI Agents, please follow the [AGENTS.md](./AGENTS.md) protocol._
