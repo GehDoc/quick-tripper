@@ -4,9 +4,10 @@ import { migrateToLatest, CURRENT_VERSION } from '@/utils/migration';
 import { Trip } from '@/types/trip';
 
 export function useTrips() {
-  const [trips, setTrips] = useState<Trip[]>(() => {
-    if (typeof window === 'undefined') return [];
+  const [trips, setTrips] = useState<Trip[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  useEffect(() => {
     // 1. Load from LocalStorage
     const saved = localStorage.getItem('saved_trips');
     const rawData = saved ? JSON.parse(saved) : [];
@@ -32,18 +33,12 @@ export function useTrips() {
       );
     }
 
-    return currentTrips;
-  });
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTrips(currentTrips);
+    setIsLoaded(true);
+  }, []);
 
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
-  // Initialize: Clean URL params on mount
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('payload')) {
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, []);
 
   const addTrips = (newTrips: Trip[]) => {
     setTrips((prev) => {
@@ -64,7 +59,6 @@ export function useTrips() {
       'saved_trips',
       JSON.stringify({ version: CURRENT_VERSION, data: updated }),
     );
-    // Reset index to 0 to avoid out of bounds if the last item was deleted
     setActiveIndex(0);
   };
 
@@ -76,5 +70,6 @@ export function useTrips() {
     addTrips,
     deleteTrip,
     totalTrips: trips.length,
+    isLoaded,
   };
 }

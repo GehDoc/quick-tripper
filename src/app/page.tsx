@@ -21,17 +21,24 @@ import { generateItinerary } from '@/services/ai';
 import { generateShareUrl } from '@/utils/share';
 
 export default function Home() {
-  // Hook manages all data arrays, local storage sync, and layout indices
-  const { trips, activeTrip, activeIndex, setActiveIndex, addTrips, deleteTrip, totalTrips } =
-    useTrips();
+  const {
+    trips,
+    activeTrip,
+    activeIndex,
+    setActiveIndex,
+    addTrips,
+    deleteTrip,
+    totalTrips,
+    isLoaded,
+  } = useTrips();
 
-  // Component-specific UI states
-  const [apiKey, setApiKey] = useState<string>(() =>
-    typeof window !== 'undefined' ? localStorage.getItem('hf_api_key') || '' : '',
-  );
   const [prompt, setPrompt] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  const [apiKey, setApiKey] = useState<string>(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('hf_api_key') || '' : '',
+  );
 
   const handleApiKeyChange = (key: string) => {
     const trimmedKey = key.trim();
@@ -47,7 +54,6 @@ export default function Home() {
     setError('');
 
     try {
-      // Calls standard decoupled service layer
       const generatedMarkdown = await generateItinerary({ apiKey, prompt });
 
       addTrips([
@@ -99,10 +105,17 @@ export default function Home() {
     }
   };
 
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-base-200 p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Navigation Bar Header Component */}
         <div className="navbar bg-base-100 shadow-xl rounded-box justify-between gap-4 p-4">
           <div className="flex items-center gap-2">
             <MapPin className="text-primary w-6 h-6" />
@@ -122,9 +135,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Input Controls & Offline Sharing Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Prompt Generator Card */}
           <div className="card bg-base-100 shadow-xl md:col-span-2">
             <div className="card-body gap-3">
               <h2 className="card-title text-sm font-semibold text-base-content/70">
@@ -154,8 +165,6 @@ export default function Home() {
               {error && <p className="text-error text-xs font-medium">{error}</p>}
             </div>
           </div>
-
-          {/* Offline Sync Controls Card */}
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body justify-between gap-2 p-4">
               <h2 className="card-title text-xs tracking-wide uppercase opacity-50">
@@ -190,14 +199,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Selected Route Layout Viewer */}
         {activeTrip ? (
           <div className="space-y-4">
-            {/* Viewport Pagination Controller */}
             <div className="flex items-center justify-between bg-base-100 p-2 rounded-box shadow-md border border-base-300">
               <button
                 disabled={activeIndex === totalTrips - 1}
-                onClick={() => setActiveIndex((prev) => prev + 1)}
+                onClick={() => setActiveIndex(activeIndex + 1)}
                 className="btn btn-ghost btn-circle"
               >
                 <ChevronLeft />
@@ -210,14 +217,13 @@ export default function Home() {
               </div>
               <button
                 disabled={activeIndex === 0}
-                onClick={() => setActiveIndex((prev) => prev - 1)}
+                onClick={() => setActiveIndex(activeIndex - 1)}
                 className="btn btn-ghost btn-circle"
               >
                 <ChevronRight />
               </button>
             </div>
 
-            {/* Markdown Display Sheet */}
             <div className="card bg-base-100 shadow-2xl relative border border-base-300">
               <div className="card-body p-6 md:p-12">
                 <button
@@ -228,7 +234,6 @@ export default function Home() {
                   <Trash2 className="w-4 h-4" />
                 </button>
 
-                {/* Styled cleanly with tailwindcss/typography using 'prose' */}
                 <article className="prose max-w-none text-base-content leading-relaxed">
                   <ReactMarkdown
                     rehypePlugins={[rehypeRaw]}
