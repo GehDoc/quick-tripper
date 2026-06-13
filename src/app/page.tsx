@@ -3,22 +3,24 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import { FaKey as Key } from 'react-icons/fa';
+import { IoSend as Send } from 'react-icons/io5';
 import {
-  MapPin,
-  Key,
-  Send,
-  Download,
-  Upload,
-  Share2,
-  Trash2,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+  FiDownload as Download,
+  FiUpload as Upload,
+  FiShare2 as Share2,
+  FiTrash2 as Trash2,
+  FiChevronLeft as ChevronLeft,
+  FiChevronRight as ChevronRight,
+} from 'react-icons/fi';
+import { SiGithub as GitHub } from 'react-icons/si';
 
 // Standardized Hook, Service, and Share Utilities
 import { useTrips } from '@/hooks/useTrips';
 import { generateItinerary } from '@/services/ai';
 import { generateShareUrl } from '@/utils/share';
+import { VERSION, REPO_URL } from '@/utils/version';
+import { Logo } from '@/components/Logo';
 
 export default function Home() {
   const {
@@ -117,9 +119,22 @@ export default function Home() {
     <div className="min-h-screen bg-base-200 p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="navbar bg-base-100 shadow-xl rounded-box justify-between gap-4 p-4">
-          <div className="flex items-center gap-2">
-            <MapPin className="text-primary w-6 h-6" />
-            <span className="font-bold text-xl tracking-tight">Quick-tripper</span>
+          <div className="flex items-center gap-3">
+            <Logo className="text-primary w-10 h-10" />
+            <div className="flex flex-col">
+              <span className="font-bold text-xl tracking-tight">Quick-tripper</span>
+              <div className="flex items-center gap-3 text-[10px] text-base-content/50">
+                <span>v{VERSION}</span>
+                <a
+                  href={REPO_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 hover:text-primary transition-colors"
+                >
+                  <GitHub className="w-3 h-3" /> GitHub
+                </a>
+              </div>
+            </div>
           </div>
           <div className="form-control">
             <label className="input input-bordered flex items-center gap-2 input-sm">
@@ -198,7 +213,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
         {activeTrip ? (
           <div className="space-y-4">
             <div className="flex items-center justify-between bg-base-100 p-2 rounded-box shadow-md border border-base-300">
@@ -245,7 +259,7 @@ export default function Home() {
                           rel="noreferrer"
                           className="btn btn-secondary btn-sm gap-2 my-4 no-underline inline-flex shadow-sm hover:scale-[1.02] transition-transform"
                         >
-                          <MapPin className="w-3 h-3" /> {children}
+                          <Logo className="w-3 h-3" /> {children}
                         </a>
                       ),
                       iframe: ({ src, ...props }) => {

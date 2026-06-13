@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { MapPin, Home } from 'lucide-react';
+import { HiMapPin as MapPin } from 'react-icons/hi2';
+import { FaHome as Home } from 'react-icons/fa';
 
 export default function NotFound() {
   return (
