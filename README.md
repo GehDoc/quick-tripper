@@ -53,14 +53,19 @@ This project follows **Spec-Driven Development (SDD)** to maintain a clear roadm
    ```
 5. **Open the App**: Visit `http://localhost:3000` and enter your API key in the top bar.
 
+## 🏗️ Architecture
+
+For a detailed look at the system design, core modules, and data contract versioning, see: **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)**.
+
 ## 🧪 Quality & Integrity Strategy
 
 To maintain a robust "zero-backend" application, we rely on a multi-tiered validation strategy:
 
-1. **Static Analysis**: ESLint and Prettier ensure code consistency and catch early errors.
-2. **Type Safety**: Strict TypeScript is enforced at the commit level via Husky hooks.
-3. **Unit Testing**: Vitest and JSDOM validate core logic and utility functions (e.g., URL compression).
-4. **Spec-First Implementation**: Every change is traced back to a technical specification, ensuring architectural alignment.
+1. **Architectural Design**: High-level designs and data contracts are documented in `ARCHITECTURE.md`.
+2. **Static Analysis**: ESLint and Prettier ensure code consistency and catch early errors.
+3. **Type Safety**: Strict TypeScript is enforced at the commit level via Husky hooks.
+4. **Unit Testing**: Vitest and JSDOM validate core logic and utility functions (e.g., URL compression).
+5. **Spec-First Implementation**: Every change is traced back to a technical specification in `specs/`, ensuring architectural alignment.
 
 ## 📦 Deployment
 
@@ -75,3 +80,11 @@ _Note: This command runs `next build` with `output: 'export'` and pushes the `ou
 ## 📄 License
 
 MIT © [Quick-tripper](https://github.com/gehdoc/quick-tripper)
+
+## 💖 Support the Project
+
+If you find this tool helpful, please consider supporting its development:
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/GehDoc)
+
+Your support helps cover maintenance and further development of the tool. Thank you!

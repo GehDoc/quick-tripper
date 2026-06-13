@@ -2,41 +2,49 @@
 
 Thank you for your interest in contributing! We follow a **Spec-Driven Development (SDD)** approach to ensure high quality and clarity.
 
-## 🚀 Getting Started
+## 🧭 Project Navigation
 
-1.  **Fork** the repository.
-2.  **Install dependencies**: `npm install`.
-3.  **Setup hooks**: `npm run prepare` (Husky).
+- **User Instructions**: See [README.md](./README.md).
+- **AI Agent Protocol**: See [AGENTS.md](./AGENTS.md).
+- **Architecture**: See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
+- **Active Roadmap**: Check [specs/pending/](./specs/pending/).
 
-## 🔄 Development Workflow
+## 💻 Coding Standards
 
-### 1. The Spec-First Rule
+- **No Inline Styles**: To ensure maintainability and style consistency, inline styles (`style={{ ... }}`) are prohibited in production components. Use Tailwind classes exclusively.
 
-Before coding a new feature or fix:
+## 🔄 Workflow & Automation
 
-- Create a Markdown file in `specs/pending/XX-description.md`.
-- Define the **Goal**, **User Story**, and **Technical Strategy**.
-- List specific **Tasks** and **Verification Steps**.
+### 🚦 Type Safety & Commit Hooks
 
-### 2. Quality Control
+To prevent the introduction of breaking changes, the project uses **Husky** to enforce type safety:
 
-Before submitting a Pull Request, ensure the following checks pass:
+- **Pre-commit**: The `.husky/pre-commit` hook automatically runs `npm run check:fast` (lint, format, type-check). Commits will fail if any errors are detected.
 
-```bash
-npm run check
-```
+### 🤖 Starting with an AI Agent (Recommended)
 
-This command runs:
+To initiate a new feature, simply provide the following command to your AI collaborator:
 
-- **Linting**: ESLint (Next.js config).
-- **Formatting**: Prettier.
-- **Type Checking**: TypeScript (`tsc --noEmit`).
-- **Unit Tests**: Vitest.
+> "Read AGENTS.md and start a plan for GitHub Issue #XX"
 
-### 3. Commit Guidelines
+**The Agent will automatically:**
 
-- We use **Husky** to prevent broken commits. Your commit will fail if there are TypeScript errors.
-- Use **Conventional Commits** (e.g., `feat: ...`, `fix: ...`, `docs: ...`).
+1. Create a new branch: `feat/XX-short-description`.
+2. Initialize the spec file in `specs/pending/` from the template.
+3. Commit the initial spec to the branch and wait for your approval.
+
+### 🧑‍💻 Manual Workflow
+
+If working without an agent, follow these steps to keep the project state synchronized:
+
+1.  **Branching**: Create a feature branch from `main`: `git checkout -b feat/XX-description` (or `feat/description` if not linked to an issue).
+2.  **Spec-First**: Create a Spec file in `specs/pending/` using the [specs/template.md](./specs/template.md).
+3.  **Implement & Trace**: Write code, keeping the spec's **Task List** `[x]` updated. Update the **Technical Strategy** if the approach deviates from the plan.
+4.  **Verify**:
+    - Ensure all tasks in the spec are marked as complete.
+    - Run the full verification suite: `npm run check`.
+    - Document the successful verification in the spec's **Change Log**.
+5.  **Archive**: Update the **Status** to `🟢 Completed`, move the spec to `specs/completed/`, and merge your branch.
 
 ## 🛠 Development Commands
 
@@ -47,6 +55,47 @@ This command runs:
 | `npm run fix`        | Automatically fix linting and formatting issues      |
 | `npm run test`       | Run unit tests with Vitest                           |
 | `npm run type-check` | Validate TypeScript types                            |
+
+## 🧪 Testing Strategy
+
+Beyond end-to-end testing, we use a multi-tiered strategy for component, accessibility, and visual validation:
+
+1. **Unit Tests (`*.test.[ts|tsx]`)**: Validate logic, utilities, and basic component interaction using Vitest.
+   - **Unit Tests**: Must be co-located with the source file (e.g., `src/utils/share.test.ts` for `src/utils/share.ts`).
+2. **E2E Tests**: Reserved for the `e2e/` directory (to be created when needed).
+
+## ✅ The "Definition of Done"
+
+A contribution is only considered complete when it satisfies all of the following criteria:
+
+### 1. Specification (Spec-First)
+
+- All non-trivial changes must have an approved specification file in `specs/`.
+- Architectural changes must be documented or updated in `docs/ARCHITECTURE.md`.
+
+### 2. Testing
+
+- Every new feature or bug fix **must** include corresponding unit tests.
+- Run tests: `npm run test`.
+- All tests must pass: `npm run check`.
+
+### 3. Documentation
+
+- If the feature introduces new functionality, ensure it is documented in `README.md` and/or `docs/ARCHITECTURE.md`.
+
+## 🏷 Versioning Policy
+
+To maintain synchronization across the project, every release must increment the version number in the root `package.json`.
+
+Use the `npm version [patch|minor|major]` command before committing.
+
+## 📝 Release Note Best Practices
+
+To maintain consistent, high-quality release notes, follow this structure:
+
+- **Format**: `Release [Version] - [Short Descriptive Title]`
+- **Punchline**: 2-3 sentence summary.
+- **Structured Details**: Use `🚀 New Features`, `🛠 Improvements`, `🧪 Testing & Quality`, `📝 Documentation`.
 
 ---
 

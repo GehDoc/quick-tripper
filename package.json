@@ -1,10 +1,14 @@
 {
   "name": "quick-tripper",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "description": "Privacy-first, zero-backend AI travel companion",
   "author": "GehDoc",
   "license": "MIT",
+  "funding": {
+    "url": "https://github.com/GehDoc/quick-tripper/?sponsor=1"
+  },
   "homepage": "https://gehdoc.github.io/quick-tripper/",
   "repository": {
     "type": "git",
@@ -49,11 +53,11 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.5.20",
     "daisyui": "^5.5.23",
-    "lucide-react": "^1.17.0",
     "lz-string": "^1.5.0",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-icons": "^5.6.0",
     "react-markdown": "^10.1.0",
     "rehype-raw": "^7.0.0"
   },
