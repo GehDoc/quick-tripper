@@ -48,6 +48,21 @@ This command runs:
 | `npm run test`       | Run unit tests with Vitest                           |
 | `npm run type-check` | Validate TypeScript types                            |
 
----
+## ✅ The "Definition of Done"
 
-_For AI Agents, please follow the [AGENTS.md](./AGENTS.md) protocol._
+A contribution is only considered complete when it satisfies all of the following criteria:
+
+### 1. Specification (Spec-First)
+
+- All non-trivial changes must have an approved specification file in `specs/`.
+- Architectural changes must be documented or updated in `docs/ARCHITECTURE.md`.
+
+### 2. Testing
+
+- Every new feature or bug fix **must** include corresponding unit tests.
+- Run tests: `npm run test`.
+- All tests must pass: `npm run check`.
+
+### 3. Documentation
+
+- If the feature introduces new functionality, ensure it is documented in `README.md` and/or `docs/ARCHITECTURE.md`.
