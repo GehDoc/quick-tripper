@@ -6,6 +6,9 @@
   "description": "Privacy-first, zero-backend AI travel companion",
   "author": "GehDoc",
   "license": "MIT",
+  "funding": {
+    "url": "https://github.com/GehDoc/quick-tripper/?sponsor=1"
+  },
   "homepage": "https://gehdoc.github.io/quick-tripper/",
   "repository": {
     "type": "git",

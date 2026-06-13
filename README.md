@@ -80,3 +80,11 @@ _Note: This command runs `next build` with `output: 'export'` and pushes the `ou
 ## 📄 License
 
 MIT © [Quick-tripper](https://github.com/gehdoc/quick-tripper)
+
+## 💖 Support the Project
+
+If you find this tool helpful, please consider supporting its development:
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/GehDoc)
+
+Your support helps cover maintenance and further development of the tool. Thank you!
