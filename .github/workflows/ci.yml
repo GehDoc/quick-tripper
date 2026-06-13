@@ -34,10 +34,11 @@ jobs:
           node-version: 22
           cache: 'npm'
       - run: npm ci
+      - run: npm run build
+      - name: Create .nojekyll
+        run: touch out/.nojekyll
       - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          npm run deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: out
+          branch: gh-pages
