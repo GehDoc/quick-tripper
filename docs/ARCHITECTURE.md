@@ -40,6 +40,26 @@ When the `Trip` data structure changes in a breaking way, follow these steps to 
 5.  **Test**:
     - Add test cases in `src/tests/migration.test.ts` to verify the upgrade path from `v<N-1>` to `v<N>`.
 
+## Component Architecture
+
+The project follows a **Smart Container & Dumb Presenter** pattern (Clean Architecture) to ensure high testability and separation of concerns.
+
+### Smart Containers (Pages/Hooks)
+
+- **Role**: Data orchestration, service invocation (API calls), and state management.
+- **Location**: Found in `src/app/` (Pages) and `src/hooks/`.
+- **Responsibility**: They do not contain complex UI logic or styling. They pass data and event handlers down to presentational components.
+
+### Dumb Presenters (Components)
+
+- **Role**: Visual representation and user interaction.
+- **Location**: Found in `src/components/`.
+- **Responsibility**: They are "stateless" (logic-lite) and rely entirely on props. They must be easily unit-testable in isolation using Vitest and React Testing Library.
+
+### Testing Co-location
+
+To maintain architectural clarity, every presentational component MUST have a co-located unit test file (e.g., `src/components/MyComponent.test.tsx`).
+
 ## SSR and Hydration Strategy
 
 To maintain a "zero-backend" architecture using Next.js (SSR), we must ensure that the server-rendered HTML and client-rendered UI are identical during the initial mount.
