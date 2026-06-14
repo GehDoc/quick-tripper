@@ -40,6 +40,25 @@ When the `Trip` data structure changes in a breaking way, follow these steps to 
 5.  **Test**:
     - Add test cases in `src/tests/migration.test.ts` to verify the upgrade path from `v<N-1>` to `v<N>`.
 
+## AI Integration & Grounding
+
+The application uses **Gemini 1.5 Flash** for itinerary generation.
+
+### Google Search Grounding
+
+To ensure the freshness and accuracy of travel data (such as opening hours, seasonal availability, and current events), we enable **Google Search Retrieval**.
+
+- **Dynamic Retrieval**: The model is configured with a threshold (`dynamic_threshold: 0.3`) to decide when to perform a search.
+- **Factual Tone**: The system prompt instructs the model to prioritize factual correctness and concise information over creative narrative.
+
+### Structured Output
+
+We use Gemini's **Response MIME Type** capability to enforce a JSON schema. This allows us to reliably extract:
+
+- `title`: A clean summary of the trip.
+- `start`/`stop`: Geocodable endpoints for map rendering and future filtering.
+- `content`: The markdown-formatted itinerary.
+
 ## Component Architecture
 
 The project follows a **Smart Container & Dumb Presenter** pattern (Clean Architecture) to ensure high testability and separation of concerns.

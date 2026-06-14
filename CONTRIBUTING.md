@@ -57,6 +57,16 @@ If working without an agent, follow these steps to keep the project state synchr
 | `npm run test:e2e`   | Run E2E tests with Playwright                        |
 | `npm run type-check` | Validate TypeScript types                            |
 
+## 📦 Deployment
+
+This project is optimized for static hosting on **GitHub Pages**:
+
+```bash
+npm run deploy
+```
+
+_Note: This command runs `next build` with `output: 'export'` and pushes the `out` directory to the `gh-pages` branch._
+
 ## 🧪 Testing Strategy
 
 Beyond end-to-end testing, we use a multi-tiered strategy for component, accessibility, and visual validation:

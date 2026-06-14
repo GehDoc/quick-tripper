@@ -6,7 +6,8 @@ import { Trip } from '@/types/trip';
 
 const mockTrip: Trip = {
   id: 'trip-1',
-  destination: 'Tokyo',
+  prompt: 'Tokyo trip',
+  title: 'Tokyo',
   content:
     '# Tokyo Trip\n\n[Google Maps link](https://www.google.com/maps)\n\n<iframe src="https://www.google.com/maps/embed?pb=1"></iframe>',
   createdAt: '2023-10-27',

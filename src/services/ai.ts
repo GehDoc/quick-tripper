@@ -1,77 +1,99 @@
+export interface TripDetails {
+  title: string;
+  start: string;
+  stop: string;
+  content: string;
+}
+
 export interface GenerationOptions {
   apiKey: string;
   prompt: string;
 }
 
 const SYSTEM_PROMPT = `
-Tu es un assistant strict spécialisé dans la rédaction de carnets de voyage. Ton unique rôle est de transformer les notes de l'utilisateur en un article structuré en Markdown.
+You are a strict assistant specialized in writing travel journals.
+Your goal is to transform user notes into a structured JSON object.
 
-RÈGLES ABSOLUES :
-1. N'utilise jamais d'image d'illustration (pas de syntaxe ![]).
-2. Génère une carte interactive en créant une iframe HTML. Pour tracer le trajet, utilise STRICTEMENT ce format d'URL publique avec le point de départ et d'arrivée séparés par un slash :
-src="https://www.google.com/maps?saddr=[DEPART]&daddr=[ARRIVEE]&output=embed"
-(Exemple pour Hiroshima à Tsuwano : src="https://www.google.com/maps?saddr=Hiroshima,Japan&daddr=Tsuwano,Japan&output=embed")
-3. Crée un lien hypertexte nommé "Ouvrir l'itinéraire détaillé dans Google Maps" pointant vers la recherche d'itinéraire standard : https://www.google.com/maps/dir/[DEPART]/[ARRIVEE]/
+RULES:
+1. Use Google Search to verify locations, opening hours, and routes.
+2. The content must be factual, concise, and useful. Avoid flowery "romanced" language.
+3. NEVER use illustration images.
+4. For maps, include a standard Google Maps URL in the markdown content.
+   Format: https://www.google.com/maps/dir/[START]/[STOP]/
+5. Output MUST be a valid JSON object with the following fields:
+   - title: A clean, catchy title for the trip.
+   - start: The starting point of the journey.
+   - stop: The final destination.
+   - content: The itinerary in Markdown format.
 
-STRUCTURE STRICTE À RESPECTER POUR CHAQUE ITINÉRAIRE :
-# [Nom de la Destination] : [Un Slogan accrocheur]
+MARKDOWN STRUCTURE FOR 'content':
+## 🗺️ Logistics
+* **Start:** [Start]
+* **End:** [Stop]
+* **Estimation:** [Distance in km and driving time]
 
-## 🗺️ Infos Trajet & Logistique
-* **Départ :** [Point de départ]
-* **Arrivée :** [Destination]
-* **Mode de transport :** [Le mode indiqué]
-* **Estimation :** [Estime la distance en km et le temps de route de manière réaliste]
-
-[Insérer l'iframe de la carte ici]
-
-*🔗 [Insérer le lien texte vers Google Maps ici]*
+[Google Maps URL here]
 
 ---
-
-## 🎒 Chronique du jour & Activités
-[Rédige un récit vivant, fluide et immersif à la première personne du pluriel, en développant les activités et le cadre fournis par l'utilisateur].
+## 🎒 Itinerary
+[Day by day description, concise and factual]
 `.trim();
 
-export async function generateItinerary({ apiKey, prompt }: GenerationOptions): Promise<string> {
-  // Calling the Hugging Face Router endpoint directly (OpenAI compatible)
-  // This allows the app to work on static hosting like GitHub Pages
-  const response = await fetch('https://router.huggingface.co/v1/chat/completions', {
+export async function generateItinerary({
+  apiKey,
+  prompt,
+}: GenerationOptions): Promise<TripDetails> {
+  const model = 'gemini-1.5-flash';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'meta-llama/Llama-3.1-8B-Instruct',
-      messages: [
-        {
-          role: 'system',
-          content: SYSTEM_PROMPT,
-        },
+      contents: [
         {
           role: 'user',
-          content: prompt,
+          parts: [{ text: SYSTEM_PROMPT }, { text: `User request: ${prompt}` }],
         },
       ],
-      temperature: 0.2,
-      max_tokens: 2048,
-      stream: false,
+      tools: [
+        {
+          google_search_retrieval: {
+            dynamic_retrieval_config: {
+              mode: 'MODE_DYNAMIC',
+              dynamic_threshold: 0.3,
+            },
+          },
+        },
+      ],
+      generationConfig: {
+        temperature: 0.2,
+        topP: 0.8,
+        topK: 40,
+        maxOutputTokens: 2048,
+        responseMimeType: 'application/json',
+      },
     }),
   });
 
   if (!response.ok) {
     const errData = await response.json().catch(() => ({}));
-    throw new Error(errData.error?.message || `AI Service Error (${response.status})`);
+    throw new Error(errData.error?.message || `Gemini API Error (${response.status})`);
   }
 
   const data = await response.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
-  // Extract content from OpenAI-compatible Chat Completion structure
-  const content = data.choices?.[0]?.message?.content;
-
-  if (!content) {
-    throw new Error('No itinerary content received from the AI.');
+  if (!text) {
+    throw new Error('No content received from Gemini.');
   }
 
-  return content;
+  try {
+    return JSON.parse(text) as TripDetails;
+  } catch {
+    console.error('Failed to parse Gemini response as JSON:', text);
+    throw new Error('Invalid response format from AI.');
+  }
 }

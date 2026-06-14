@@ -22,24 +22,25 @@ export const GenerationForm: React.FC<GenerationFormProps> = ({
         <h2 className="card-title text-sm font-semibold text-base-content/70">
           Describe your next journey
         </h2>
-        <div className="join w-full">
-          <input
-            type="text"
+        <div className="flex flex-col gap-2">
+          <textarea
             placeholder="Ex: A 4-day hike itinerary across Swiss Alps starting from Interlaken..."
             value={prompt}
             onChange={(e) => onPromptChange(e.target.value)}
             disabled={isLoading}
-            className="input input-bordered join-item w-full input-md focus:outline-none"
+            className="textarea textarea-bordered w-full min-h-[120px] focus:outline-none resize-y"
           />
           <button
             onClick={onGenerate}
-            disabled={isLoading}
-            className="btn btn-primary join-item px-6"
+            disabled={isLoading || !prompt.trim()}
+            className="btn btn-primary w-full md:w-auto self-end px-8"
           >
             {isLoading ? (
               <span className="loading loading-spinner loading-sm"></span>
             ) : (
-              <Send className="w-4 h-4" />
+              <>
+                <Send className="w-4 h-4 mr-2" /> Generate Itinerary
+              </>
             )}
           </button>
         </div>
