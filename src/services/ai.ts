@@ -43,13 +43,14 @@ export async function generateItinerary({
   apiKey,
   prompt,
 }: GenerationOptions): Promise<TripDetails> {
-  const model = 'gemini-1.5-flash';
-  const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey}`;
+  const model = 'gemini-3.5-flash';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-goog-api-key': apiKey,
     },
     body: JSON.stringify({
       contents: [
@@ -60,12 +61,7 @@ export async function generateItinerary({
       ],
       tools: [
         {
-          google_search_retrieval: {
-            dynamic_retrieval_config: {
-              mode: 'MODE_DYNAMIC',
-              dynamic_threshold: 0.3,
-            },
-          },
+          google_search: {},
         },
       ],
       generationConfig: {
