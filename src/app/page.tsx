@@ -4,9 +4,6 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import {
-  FiDownload as Download,
-  FiUpload as Upload,
-  FiShare2 as Share2,
   FiTrash2 as Trash2,
   FiChevronLeft as ChevronLeft,
   FiChevronRight as ChevronRight,
@@ -20,6 +17,7 @@ import { Logo } from '@/components/Logo';
 import { EmptyState } from '@/components/EmptyState';
 import { Navbar } from '@/components/Navbar';
 import { GenerationForm } from '@/components/GenerationForm';
+import { WorkspaceActions } from '@/components/WorkspaceActions';
 
 export default function Home() {
   const {
@@ -127,38 +125,12 @@ export default function Home() {
             isLoading={isLoading}
             error={error}
           />
-          <div className="card bg-base-100 shadow-xl">
-            <div className="card-body justify-between gap-2 p-4">
-              <h2 className="card-title text-xs tracking-wide uppercase opacity-50">
-                Serverless Workspace
-              </h2>
-              <div className="flex gap-2">
-                <button
-                  disabled={totalTrips === 0}
-                  onClick={handleJsonExport}
-                  className="btn btn-outline btn-xs flex-1 norm-case"
-                >
-                  <Download className="w-3 h-3" /> Export
-                </button>
-                <label className="btn btn-outline btn-xs flex-1 norm-case">
-                  <Upload className="w-3 h-3" /> Import
-                  <input
-                    type="file"
-                    accept=".json"
-                    className="hidden"
-                    onChange={handleJsonImport}
-                  />
-                </label>
-              </div>
-              <button
-                disabled={totalTrips === 0}
-                onClick={handleUrlShare}
-                className="btn btn-accent btn-sm w-full mt-2 normal-case text-white"
-              >
-                <Share2 className="w-4 h-4" /> Share Active Link
-              </button>
-            </div>
-          </div>
+          <WorkspaceActions
+            totalTrips={totalTrips}
+            onExport={handleJsonExport}
+            onImport={handleJsonImport}
+            onShare={handleUrlShare}
+          />
         </div>
         {activeTrip ? (
           <div className="space-y-4">
