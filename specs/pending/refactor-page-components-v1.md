@@ -65,7 +65,7 @@ This refactoring will be executed incrementally. For each component identified i
 3. [x] `GenerationForm`
 4. [x] `WorkspaceActions`
 5. [x] `TripNavigator`
-6. [ ] `TripViewer`
+6. [x] `TripViewer`
 
 ## Branching Strategy
 
