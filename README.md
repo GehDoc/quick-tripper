@@ -51,7 +51,7 @@ This project follows **Spec-Driven Development (SDD)** to maintain a clear roadm
    ```bash
    npm run dev
    ```
-5. **Open the App**: Visit `http://localhost:3000` and enter your API key in the top bar.
+5. **Open the App**: Visit `http://localhost:3000` (development) or `http://localhost:3000/quick-tripper` (production-emulated) and enter your API key in the top bar.
 
 ## 🏗️ Architecture
 
@@ -64,8 +64,9 @@ To maintain a robust "zero-backend" application, we rely on a multi-tiered valid
 1. **Architectural Design**: High-level designs and data contracts are documented in `ARCHITECTURE.md`.
 2. **Static Analysis**: ESLint and Prettier ensure code consistency and catch early errors.
 3. **Type Safety**: Strict TypeScript is enforced at the commit level via Husky hooks.
-4. **Unit Testing**: Vitest and JSDOM validate core logic and utility functions (e.g., URL compression).
-5. **Spec-First Implementation**: Every change is traced back to a technical specification in `specs/`, ensuring architectural alignment.
+4. **Unit Testing**: Vitest and JSDOM validate core logic, utility functions, and presentational components (co-located tests).
+5. **E2E Testing**: Playwright validates full user workflows and "golden paths" in a real browser environment.
+6. **Spec-First Implementation**: Every change is traced back to a technical specification in `specs/`, ensuring architectural alignment.
 
 ## 📦 Deployment
 

@@ -54,15 +54,24 @@ If working without an agent, follow these steps to keep the project state synchr
 | `npm run check:fast` | Fast checks: Lint, Format, and Type-check            |
 | `npm run fix`        | Automatically fix linting and formatting issues      |
 | `npm run test`       | Run unit tests with Vitest                           |
+| `npm run test:e2e`   | Run E2E tests with Playwright                        |
 | `npm run type-check` | Validate TypeScript types                            |
 
 ## 🧪 Testing Strategy
 
 Beyond end-to-end testing, we use a multi-tiered strategy for component, accessibility, and visual validation:
 
-1. **Unit Tests (`*.test.[ts|tsx]`)**: Validate logic, utilities, and basic component interaction using Vitest.
-   - **Unit Tests**: Must be co-located with the source file (e.g., `src/utils/share.test.ts` for `src/utils/share.ts`).
-2. **E2E Tests**: Reserved for the `e2e/` directory (to be created when needed).
+1. **Unit Tests (`*.test.[ts|tsx]`)**: Validate logic, utilities, and basic component interaction using Vitest and JSDOM. These are fast and do not require a browser.
+   - **Co-location**: Unit tests MUST be co-located with the source file they test (e.g., `src/components/Button.test.tsx` for `src/components/Button.tsx`).
+   - **Command**: `npm run test` (or `npm run check` for the full suite).
+2. **Visual Regression Tests (`*.spec.[ts|tsx]`)**: Validate component-level rendering and pixel-perfect consistency in a real browser (Chromium) using Playwright.
+   - **Location**: Co-located with the component, similar to unit tests, but using the `.spec` suffix.
+   - **Command**: `npm run test:visual` (Future capability).
+3. E2E Tests (`e2e/*.spec.ts`): Validate full user workflows in a real browser environment.
+   - **Location**: Dedicated `e2e/` directory at the project root.
+   - **Command**: `npm run test:e2e`
+4. **Storybook Interaction & A11y Tests**: Validate visual/accessibility compliance (e.g., color contrast) and component interactions in isolation.
+   - **Command**: `npm run test:storybook` (Future capability).
 
 ## ✅ The "Definition of Done"
 
@@ -91,7 +100,7 @@ Use the `npm version [patch|minor|major]` command before committing.
 
 ## 📝 Release Note Best Practices
 
-To maintain consistent, high-quality release notes, follow this structure:
+To maintain consistent, high-quality release notes, follow the structure below. **IMPORTANT**: Do NOT create separate Markdown files in the repository for release notes. Instead, include them in your **Pull Request description**.
 
 - **Format**: `Release [Version] - [Short Descriptive Title]`
 - **Punchline**: 2-3 sentence summary.
