@@ -57,15 +57,35 @@ This project follows **Spec-Driven Development (SDD)** to maintain a clear roadm
 
 ## 🚀 Getting Started
 
-... 5. **Open the App**: Visit `http://localhost:3000` (development) or `http://localhost:3000/quick-tripper` (production-emulated) and enter your API key in the top bar.
+1. **Clone the Repo**:
+   ```bash
+   git clone https://github.com/gehdoc/quick-tripper.git
+   cd quick-tripper
+   ```
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Run Locally**:
+   ```bash
+   npm run dev
+   ```
+4. **Open the App**: Visit `http://localhost:3000` (development) or `http://localhost:3000/quick-tripper` (production-emulated) and enter your API key in the top bar.
 
 ## 🏗️ Architecture
 
-...
+For a detailed look at the system design, core modules, and data contract versioning, see: **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)**.
 
 ## 🧪 Quality & Integrity Strategy
 
-...
+To maintain a robust "zero-backend" application, we rely on a multi-tiered validation strategy:
+
+1. **Architectural Design**: High-level designs and data contracts are documented in `ARCHITECTURE.md`.
+2. **Static Analysis**: ESLint and Prettier ensure code consistency and catch early errors.
+3. **Type Safety**: Strict TypeScript is enforced at the commit level via Husky hooks.
+4. **Unit Testing**: Vitest and JSDOM validate core logic, utility functions, and presentational components (co-located tests).
+5. **E2E Testing**: Playwright validates full user workflows and "golden paths" in a real browser environment.
+6. **Spec-First Implementation**: Every change is traced back to a technical specification in `specs/`, ensuring architectural alignment.
 
 ## 📄 License
 
@@ -73,4 +93,8 @@ MIT © [Quick-tripper](https://github.com/gehdoc/quick-tripper)
 
 ## 💖 Support the Project
 
-...
+If you find this tool helpful, please consider supporting its development:
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/GehDoc)
+
+Your support helps cover maintenance and further development of the tool. Thank you!
