@@ -1,7 +1,12 @@
 self.__BUILD_MANIFEST = {
   "__rewrites": {
     "afterFiles": [],
-    "beforeFiles": [],
+    "beforeFiles": [
+      {
+        "source": "/quick-tripper//_next/:path+",
+        "destination": "/quick-tripper/_next/:path+"
+      }
+    ],
     "fallback": []
   },
   "sortedPages": [
