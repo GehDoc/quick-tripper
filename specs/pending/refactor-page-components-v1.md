@@ -63,7 +63,7 @@ This refactoring will be executed incrementally. For each component identified i
 1. [x] `EmptyState`
 2. [x] `Navbar`
 3. [x] `GenerationForm`
-4. [ ] `WorkspaceActions`
+4. [x] `WorkspaceActions`
 5. [ ] `TripNavigator`
 6. [ ] `TripViewer`
 

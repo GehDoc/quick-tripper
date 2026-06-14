@@ -3,11 +3,7 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-import {
-  FiTrash2 as Trash2,
-  FiChevronLeft as ChevronLeft,
-  FiChevronRight as ChevronRight,
-} from 'react-icons/fi';
+import { FiTrash2 as Trash2 } from 'react-icons/fi';
 
 // Standardized Hook, Service, and Share Utilities
 import { useTrips } from '@/hooks/useTrips';
@@ -18,6 +14,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { Navbar } from '@/components/Navbar';
 import { GenerationForm } from '@/components/GenerationForm';
 import { WorkspaceActions } from '@/components/WorkspaceActions';
+import { TripNavigator } from '@/components/TripNavigator';
 
 export default function Home() {
   const {
@@ -134,28 +131,13 @@ export default function Home() {
         </div>
         {activeTrip ? (
           <div className="space-y-4">
-            <div className="flex items-center justify-between bg-base-100 p-2 rounded-box shadow-md border border-base-300">
-              <button
-                disabled={activeIndex === totalTrips - 1}
-                onClick={() => setActiveIndex(activeIndex + 1)}
-                className="btn btn-ghost btn-circle"
-              >
-                <ChevronLeft />
-              </button>
-              <div className="text-center max-w-xs md:max-w-md truncate">
-                <div className="font-bold text-sm truncate">{activeTrip.destination}</div>
-                <div className="text-xs opacity-50 font-mono">
-                  {activeIndex + 1} / {totalTrips} — {activeTrip.createdAt}
-                </div>
-              </div>
-              <button
-                disabled={activeIndex === 0}
-                onClick={() => setActiveIndex(activeIndex - 1)}
-                className="btn btn-ghost btn-circle"
-              >
-                <ChevronRight />
-              </button>
-            </div>
+            <TripNavigator
+              activeTrip={activeTrip}
+              activeIndex={activeIndex}
+              totalTrips={totalTrips}
+              onNext={() => setActiveIndex(activeIndex + 1)}
+              onPrev={() => setActiveIndex(activeIndex - 1)}
+            />
 
             <div className="card bg-base-100 shadow-2xl relative border border-base-300">
               <div className="card-body p-6 md:p-12">
