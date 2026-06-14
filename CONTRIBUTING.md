@@ -100,7 +100,7 @@ Use the `npm version [patch|minor|major]` command before committing.
 
 ## 📝 Release Note Best Practices
 
-To maintain consistent, high-quality release notes, follow this structure:
+To maintain consistent, high-quality release notes, follow the structure below. **IMPORTANT**: Do NOT create separate Markdown files in the repository for release notes. Instead, include them in your **Pull Request description**.
 
 - **Format**: `Release [Version] - [Short Descriptive Title]`
 - **Punchline**: 2-3 sentence summary.

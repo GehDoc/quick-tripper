@@ -21,6 +21,7 @@ Before writing any implementation code, agents must:
     - **Incrementality**: Extract/Implement one logical unit (e.g., one component) at a time.
     - **Test-Driven**: Write unit tests for each unit immediately after creation.
     - **Atomic Commits**: Commit and push each successful "Unit + Test" cycle.
+    - **No Release Files**: NEVER create separate Markdown files for release notes in the repository. Provide release notes in the final task summary or PR description only.
 5.  **Validate**: Run `npm run check` to ensure zero regressions before final PR.
 
 ## 🛠 Tech Stack Constraints
