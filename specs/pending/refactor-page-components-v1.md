@@ -60,12 +60,12 @@ This refactoring will be executed incrementally. For each component identified i
 
 ### Execution Order:
 
-1. `EmptyState`
-2. `Navbar`
-3. `GenerationForm`
-4. `WorkspaceActions`
-5. `TripNavigator`
-6. `TripViewer`
+1. [x] `EmptyState`
+2. [x] `Navbar`
+3. [ ] `GenerationForm`
+4. [ ] `WorkspaceActions`
+5. [ ] `TripNavigator`
+6. [ ] `TripViewer`
 
 ## Branching Strategy
 

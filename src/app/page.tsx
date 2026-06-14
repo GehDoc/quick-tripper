@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-import { IoSend as Send } from 'react-icons/io5';
 import {
   FiDownload as Download,
   FiUpload as Upload,
@@ -20,6 +19,7 @@ import { generateShareUrl } from '@/utils/share';
 import { Logo } from '@/components/Logo';
 import { EmptyState } from '@/components/EmptyState';
 import { Navbar } from '@/components/Navbar';
+import { GenerationForm } from '@/components/GenerationForm';
 
 export default function Home() {
   const {
@@ -120,35 +120,13 @@ export default function Home() {
         <Navbar apiKey={apiKey} onApiKeyChange={handleApiKeyChange} />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="card bg-base-100 shadow-xl md:col-span-2">
-            <div className="card-body gap-3">
-              <h2 className="card-title text-sm font-semibold text-base-content/70">
-                Describe your next journey
-              </h2>
-              <div className="join w-full">
-                <input
-                  type="text"
-                  placeholder="Ex: A 4-day hike itinerary across Swiss Alps starting from Interlaken..."
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  disabled={isLoading}
-                  className="input input-bordered join-item w-full input-md focus:outline-none"
-                />
-                <button
-                  onClick={handleGeneration}
-                  disabled={isLoading}
-                  className="btn btn-primary join-item px-6"
-                >
-                  {isLoading ? (
-                    <span className="loading loading-spinner loading-sm"></span>
-                  ) : (
-                    <Send className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-              {error && <p className="text-error text-xs font-medium">{error}</p>}
-            </div>
-          </div>
+          <GenerationForm
+            prompt={prompt}
+            onPromptChange={setPrompt}
+            onGenerate={handleGeneration}
+            isLoading={isLoading}
+            error={error}
+          />
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body justify-between gap-2 p-4">
               <h2 className="card-title text-xs tracking-wide uppercase opacity-50">
