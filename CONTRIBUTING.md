@@ -54,6 +54,7 @@ If working without an agent, follow these steps to keep the project state synchr
 | `npm run check:fast` | Fast checks: Lint, Format, and Type-check            |
 | `npm run fix`        | Automatically fix linting and formatting issues      |
 | `npm run test`       | Run unit tests with Vitest                           |
+| `npm run test:e2e`   | Run E2E tests with Playwright                        |
 | `npm run type-check` | Validate TypeScript types                            |
 
 ## 🧪 Testing Strategy
@@ -66,9 +67,9 @@ Beyond end-to-end testing, we use a multi-tiered strategy for component, accessi
 2. **Visual Regression Tests (`*.spec.[ts|tsx]`)**: Validate component-level rendering and pixel-perfect consistency in a real browser (Chromium) using Playwright.
    - **Location**: Co-located with the component, similar to unit tests, but using the `.spec` suffix.
    - **Command**: `npm run test:visual` (Future capability).
-3. **E2E Tests (`e2e/*.spec.ts`)**: Validate full user workflows in a real browser environment.
+3. E2E Tests (`e2e/*.spec.ts`): Validate full user workflows in a real browser environment.
    - **Location**: Dedicated `e2e/` directory at the project root.
-   - **Command**: `npm run test:e2e` (Future capability).
+   - **Command**: `npm run test:e2e`
 4. **Storybook Interaction & A11y Tests**: Validate visual/accessibility compliance (e.g., color contrast) and component interactions in isolation.
    - **Command**: `npm run test:storybook` (Future capability).
 

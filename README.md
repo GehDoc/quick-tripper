@@ -51,7 +51,7 @@ This project follows **Spec-Driven Development (SDD)** to maintain a clear roadm
    ```bash
    npm run dev
    ```
-5. **Open the App**: Visit `http://localhost:3000` and enter your API key in the top bar.
+5. **Open the App**: Visit `http://localhost:3000` (development) or `http://localhost:3000/quick-tripper` (production-emulated) and enter your API key in the top bar.
 
 ## 🏗️ Architecture
 
