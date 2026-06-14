@@ -43,8 +43,8 @@ export async function generateItinerary({
   apiKey,
   prompt,
 }: GenerationOptions): Promise<TripDetails> {
-  const model = 'models/gemini-1.5-flash';
-  const url = `https://generativelanguage.googleapis.com/v1beta/${model}:generateContent?key=${apiKey}`;
+  const model = 'gemini-1.5-flash';
+  const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey}`;
 
   const response = await fetch(url, {
     method: 'POST',
