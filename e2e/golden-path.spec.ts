@@ -3,15 +3,24 @@ import { test, expect } from '@playwright/test';
 test('golden path - generate trip', async ({ page }) => {
   await page.goto('/');
   // Mock API
-  await page.route('https://router.huggingface.co/v1/chat/completions', (route) =>
+  await page.route('**/models/gemini-1.5-flash:generateContent?key=dummy-key', (route) =>
     route.fulfill({
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify({
-        choices: [
+        candidates: [
           {
-            message: {
-              content: '# Golden Trip\nThis is a mocked itinerary.',
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    title: 'Golden Trip',
+                    start: 'Zurich',
+                    stop: 'Interlaken',
+                    content: '# Golden Trip\nThis is a mocked itinerary.',
+                  }),
+                },
+              ],
             },
           },
         ],
@@ -20,12 +29,12 @@ test('golden path - generate trip', async ({ page }) => {
   );
 
   // Enter API Key
-  await page.getByPlaceholder('HuggingFace API Token').fill('dummy-key');
+  await page.getByPlaceholder('Gemini API Key').fill('dummy-key');
   // Enter Destination
-  await page.getByPlaceholder('Ex: A 4-day hike').fill('Swiss Alps');
+  await page.getByPlaceholder(/Ex: A 4-day hike itinerary/i).fill('Swiss Alps');
   // Send
-  await page.locator('.join').getByRole('button').click(); // Send icon button within join component
+  await page.getByRole('button', { name: /Generate Itinerary/i }).click();
 
   // Verify
-  await expect(page.getByText('Golden Trip')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Golden Trip' }).first()).toBeVisible();
 });
