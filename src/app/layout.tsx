@@ -11,10 +11,15 @@ const inter = Inter({
 
 // Production SEO metadata architecture
 export const metadata: Metadata = {
+  metadataBase: new URL('https://gehdoc.github.io/quick-tripper'),
   title: 'Quick-tripper — Serverless AI Itinerary Planner',
   description:
-    'Generate, compress, and instantly share markdown travel itineraries completely client-side via Hugging Face.',
+    'Generate, compress, and instantly share markdown travel itineraries completely client-side via Gemini 1.5.',
   robots: 'index, follow',
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icon.svg',
+  },
 };
 
 // Explicit viewport rules to prevent layout scaling breaking on mobile devices
