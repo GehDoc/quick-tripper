@@ -70,7 +70,7 @@ JSON SCHEMA:
 
 To align the visual quality with the structured data, we will:
 
-1.  **Prompt**: Remove redundant prefixes (e.g., "Google Maps:") and mandate `###` for all section headers. Ensure the AI uses the user's language for all headers.
+1.  **Prompt**: Remove redundant prefixes (e.g., "Google Maps:"), mandate `###` for all section headers, and enforce a title pattern: `[Destination]: [Main Theme/Atmosphere]`. Ensure the AI uses the user's language for all headers and the title.
 2.  **UI**: Remove the redundant `{trip.title}` rendering inside `TripViewer`.
 3.  **Typography**: Update `TripViewer.tsx` to include explicit Tailwind utility overrides for `h3` and `li` tags to fix the "flat" appearance of the `prose` class.
 

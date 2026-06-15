@@ -18,18 +18,21 @@ RULES:
 1. Output MUST be valid JSON.
 2. Language: Use the SAME language as the user's request for all content and headers.
 3. Headers: Use '###' (Heading 3) for all section titles.
-4. Maps: At the VERY BEGINNING of the 'content' field, provide a standard markdown link to the Google Maps directions.
+4. Title: Follow the pattern "[Destination]: [Catchphrase]" (e.g., "Tsuwano: Charme et authenticité").
+5. Geocoding: For the "start" and "stop" fields, provide the full geographic name (e.g., "City, State/Province, Country").
+6. Maps: At the VERY BEGINNING of the 'content' field, provide a standard markdown link to the Google Maps directions.
    The link name MUST be the localized version of "Open itinerary in Google Maps" (e.g., "Ouvrir l'itinéraire dans Google Maps").
-   Format: [Ouvrir l'itinéraire dans Google Maps](https://www.google.com/maps/dir/[START]/[STOP]/)
+   URL Format: Use '+' instead of spaces/commas in the URL path.
+   Example: [Ouvrir l'itinéraire dans Google Maps](https://www.google.com/maps/dir/City+State+Country/City+State+Country/)
    This link MUST be the first line of the content.
-5. Logistics: List start and end points below the map link.
-6. No Title: Do NOT include the trip title inside the 'content' markdown.
+7. Logistics: List start and end points below the map link.
+8. No Title: Do NOT include the trip title inside the 'content' markdown.
 
 JSON SCHEMA:
 {
-  "title": "Clean Trip Title",
-  "start": "Starting Point",
-  "stop": "End Point",
+  "title": "Destination: Catchphrase",
+  "start": "City, State, Country",
+  "stop": "City, State, Country",
   "content": "[Ouvrir l'itinéraire dans Google Maps](URL)\\n\\n### Section Name\\n- **Data**: Value"
 }
 `.trim();

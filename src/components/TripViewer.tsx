@@ -72,8 +72,8 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
                   let embedUrl = href;
                   if (href.includes('google.com/maps/dir/')) {
                     const parts = href.split('google.com/maps/dir/')[1].split('/');
-                    const saddr = parts[0];
-                    const daddr = parts[1];
+                    const saddr = encodeURIComponent(parts[0].trim());
+                    const daddr = encodeURIComponent(parts[1].trim());
                     embedUrl = `https://www.google.com/maps?saddr=${saddr}&daddr=${daddr}&output=embed`;
                   }
 

@@ -12,10 +12,10 @@ describe('ai service', () => {
         {
           message: {
             content: JSON.stringify({
-              title: 'Tokyo Adventure',
-              start: 'Tokyo',
-              stop: 'Kyoto',
-              content: '# Day 1: Arrive in Tokyo',
+              title: 'Tokyo: City of Neon',
+              start: 'Tokyo, Japan',
+              stop: 'Kyoto, Japan',
+              content: '[Open](https://maps.com)\n\n### Itinerary',
             }),
           },
         },
@@ -29,9 +29,9 @@ describe('ai service', () => {
 
     const result = await generateItinerary({ apiKey: 'test-key', prompt: 'Trip to Japan' });
 
-    expect(result.title).toBe('Tokyo Adventure');
-    expect(result.start).toBe('Tokyo');
-    expect(result.content).toContain('Day 1');
+    expect(result.title).toBe('Tokyo: City of Neon');
+    expect(result.start).toBe('Tokyo, Japan');
+    expect(result.content).toContain('### Itinerary');
   });
 
   it('should extract JSON even if wrapped in markdown blocks', async () => {
@@ -40,7 +40,7 @@ describe('ai service', () => {
         {
           message: {
             content:
-              'Here is your trip:\n```json\n{"title": "Wrapped Trip", "start": "A", "stop": "B", "content": "test"}\n```',
+              'Here is your trip:\n```json\n{"title": "Tokyo: Trip", "start": "A, B, C", "stop": "D, E, F", "content": "test"}\n```',
           },
         },
       ],
@@ -53,8 +53,8 @@ describe('ai service', () => {
 
     const result = await generateItinerary({ apiKey: 'test-key', prompt: 'Trip' });
 
-    expect(result.title).toBe('Wrapped Trip');
-    expect(result.start).toBe('A');
+    expect(result.title).toBe('Tokyo: Trip');
+    expect(result.start).toBe('A, B, C');
   });
 
   it('should throw an error if AI response is not valid JSON', async () => {
