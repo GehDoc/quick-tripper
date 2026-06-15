@@ -12,6 +12,7 @@ Thank you for your interest in contributing! We follow a **Spec-Driven Developme
 ## 💻 Coding Standards
 
 - **No Inline Styles**: To ensure maintainability and style consistency, inline styles (`style={{ ... }}`) are prohibited in production components. Use Tailwind classes exclusively.
+- **Markdown Security**: All AI-generated content MUST be passed through the sanitization pipeline in `TripViewer.tsx`. Never use `dangerouslySetInnerHTML` or disable sanitization without a security review. Any new component added to the markdown renderer must be explicitly whitelisted in the sanitization schema.
 
 ## 🔄 Workflow & Automation
 
@@ -56,6 +57,16 @@ If working without an agent, follow these steps to keep the project state synchr
 | `npm run test`       | Run unit tests with Vitest                           |
 | `npm run test:e2e`   | Run E2E tests with Playwright                        |
 | `npm run type-check` | Validate TypeScript types                            |
+
+## 📦 Deployment
+
+This project is optimized for static hosting on **GitHub Pages**:
+
+```bash
+npm run deploy
+```
+
+_Note: This command runs `next build` with `output: 'export'` and pushes the `out` directory to the `gh-pages` branch._
 
 ## 🧪 Testing Strategy
 

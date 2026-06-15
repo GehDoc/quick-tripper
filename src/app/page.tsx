@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 // Standardized Hook, Service, and Share Utilities
 import { useTrips } from '@/hooks/useTrips';
@@ -33,13 +33,13 @@ export default function Home() {
     typeof window !== 'undefined' ? localStorage.getItem('hf_api_key') || '' : '',
   );
 
-  const handleApiKeyChange = (key: string) => {
+  const handleApiKeyChange = useCallback((key: string) => {
     const trimmedKey = key.trim();
     setApiKey(trimmedKey);
     localStorage.setItem('hf_api_key', trimmedKey);
-  };
+  }, []);
 
-  const handleGeneration = async () => {
+  const handleGeneration = useCallback(async () => {
     if (!apiKey) return setError('API Key required.');
     if (!prompt) return setError('Destination description required.');
 
@@ -47,13 +47,16 @@ export default function Home() {
     setError('');
 
     try {
-      const generatedMarkdown = await generateItinerary({ apiKey, prompt });
+      const tripDetails = await generateItinerary({ apiKey, prompt });
 
       addTrips([
         {
           id: Date.now().toString(),
-          destination: prompt,
-          content: generatedMarkdown,
+          prompt: prompt,
+          title: tripDetails.title,
+          start: tripDetails.start,
+          stop: tripDetails.stop,
+          content: tripDetails.content,
           createdAt: new Date().toLocaleDateString(),
         },
       ]);
@@ -66,37 +69,49 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [apiKey, prompt, addTrips]);
 
-  const handleUrlShare = () => {
+  const handleUrlShare = useCallback(() => {
     if (!activeTrip) return;
     const shareUrl = generateShareUrl(activeTrip);
     navigator.clipboard.writeText(shareUrl);
     alert('Compressed share link copied to clipboard!');
-  };
+  }, [activeTrip]);
 
-  const handleJsonExport = () => {
+  const handleJsonExport = useCallback(() => {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(trips));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
     downloadAnchor.setAttribute('download', `road-trips-${Date.now()}.json`);
     downloadAnchor.click();
-  };
+  }, [trips]);
 
-  const handleJsonImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileReader = new FileReader();
-    if (e.target.files?.[0]) {
-      fileReader.readAsText(e.target.files[0], 'UTF-8');
-      fileReader.onload = (event) => {
-        try {
-          const parsed = JSON.parse(event.target?.result as string);
-          if (Array.isArray(parsed)) addTrips(parsed);
-        } catch {
-          alert('Invalid JSON schema.');
-        }
-      };
-    }
-  };
+  const handleJsonImport = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const fileReader = new FileReader();
+      if (e.target.files?.[0]) {
+        fileReader.readAsText(e.target.files[0], 'UTF-8');
+        fileReader.onload = (event) => {
+          try {
+            const parsed = JSON.parse(event.target?.result as string);
+            if (Array.isArray(parsed)) addTrips(parsed);
+          } catch {
+            alert('Invalid JSON schema.');
+          }
+        };
+      }
+    },
+    [addTrips],
+  );
+
+  const handleNext = useCallback(
+    () => setActiveIndex(activeIndex + 1),
+    [activeIndex, setActiveIndex],
+  );
+  const handlePrev = useCallback(
+    () => setActiveIndex(activeIndex - 1),
+    [activeIndex, setActiveIndex],
+  );
 
   if (!isLoaded) {
     return (
@@ -132,8 +147,8 @@ export default function Home() {
               activeTrip={activeTrip}
               activeIndex={activeIndex}
               totalTrips={totalTrips}
-              onNext={() => setActiveIndex(activeIndex + 1)}
-              onPrev={() => setActiveIndex(activeIndex - 1)}
+              onNext={handleNext}
+              onPrev={handlePrev}
             />
             <TripViewer trip={activeTrip} onDelete={deleteTrip} />
           </div>

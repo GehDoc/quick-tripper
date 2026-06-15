@@ -6,13 +6,14 @@ import { Trip } from '@/types/trip';
 
 const mockTrip: Trip = {
   id: '1',
-  destination: 'Paris, France',
+  prompt: 'Paris trip',
+  title: 'Paris, France',
   content: 'Itinerary content',
   createdAt: '2023-10-27',
 };
 
 describe('TripNavigator', () => {
-  it('renders trip destination and metadata', () => {
+  it('renders trip title and metadata', () => {
     render(
       <TripNavigator
         activeTrip={mockTrip}

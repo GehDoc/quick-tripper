@@ -6,24 +6,44 @@
 [![Framework](https://img.shields.io/badge/Built_with-React-61DAFB?logo=react)](https://react.dev)
 [![AI](https://img.shields.io/badge/AI_Model-Llama_3-7B1FA2?logo=meta)](https://huggingface.co)
 
-**Quick-tripper** is a privacy-first, zero-backend travel companion web app that generates detailed road trip itineraries using AI. It operates entirely in your browser—no databases, no logins, no tracking.
+**Quick-tripper** is a privacy-first, zero-backend travel companion web app that generates detailed road trip itineraries using AI. It operates entirely in your browser—no databases, no logins, no tracking. Now powered by **Llama 3.1** via the Hugging Face Serverless API.
 
 ## ✨ Features
 
-- **🌍 Smart Itineraries**: Generate day-by-day travel plans using Llama 3 via the Hugging Face Router.
-- **🗺️ Interactive Maps**: Embedded Google Maps for every journey, secured via client-side validation.
+- **🌍 Smart Itineraries**: Generate day-by-day travel plans using Llama 3.1.
+- **🗺️ Interactive Maps**: Embedded Google Maps for every journey, rendered securely from AI-generated routes.
 - **🔒 Privacy-First**: "Bring Your Own Key" (BYOK) model. Your API token is stored locally in your browser and never sent to our servers.
-- **🔗 Compressed Sharing**: Share your entire itinerary via a single, ultra-compressed URL (powered by LZString). No backend storage required.
+- **🔗 Compressed Sharing**: Share your entire itinerary via a single, ultra-compressed URL (powered by LZString).
 - **💾 Local Persistence**: Automatic synchronization with your browser's local storage.
-- **🚦 Quality Control**: Pre-commit hooks via Husky and lint-staged to ensure type safety and code style.
-- **🧪 Automated Testing**: Unit and utility testing powered by Vitest and JSDOM.
-- **🚀 Serverless Architecture**: Designed to be hosted on static platforms like GitHub Pages.
+- **🛡️ Secure Rendering**: Strict markdown sanitization to prevent XSS and ensure your browser environment remains safe.
+
+## 📖 How-to Use
+
+1. **Enter your Hugging Face API Token**: Get a free "User Access Token" from your [Hugging Face Settings](https://huggingface.co/settings/tokens).
+2. **Describe your trip**: Use the prompt area to describe where you want to go, for how long, and what you like.
+3. **Generate**: Click "Generate Itinerary" and wait a few seconds.
+4. **Explore**: Use the interactive map and read the day-by-day suggestions.
+5. **Manage**: Your trips are saved automatically. You can export them as JSON or share them via a unique link.
+
+## 🔒 Privacy & BYOK (Bring Your Own Key)
+
+Quick-tripper is designed to be **serverless and private**. We don't have a backend to store your data or your keys.
+
+- **Local Storage**: Your API token and trip history are stored ONLY in your browser's local storage.
+- **Direct AI Calls**: The app communicates directly with Hugging Face APIs from your browser.
+- **No Tracking**: We don't use cookies, analytics, or tracking scripts.
+
+To use the app, you need a **Hugging Face User Access Token**.
+
+- Visit [Hugging Face Settings](https://huggingface.co/settings/tokens).
+- Create a new token (Read access is enough).
+- Paste it into the top bar of Quick-tripper.
 
 ## 🛠️ Tech Stack
 
 - **Framework**: [Next.js 15+](https://nextjs.org) (App Router)
 - **Styling**: [TailwindCSS 4](https://tailwindcss.com) + [DaisyUI 5](https://daisyui.com)
-- **AI Integration**: [Hugging Face Router](https://huggingface.co/docs/hub/spaces-router) (OpenAI-compatible)
+- **AI Integration**: [Llama 3.1 8B](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) via Hugging Face Router.
 - **Data Compression**: [LZString](https://pieroxy.net/lua/lz-string/index.html)
 - **Testing**: [Vitest](https://vitest.dev) + [React Testing Library](https://testing-library.com)
 - **Automation**: [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged)
@@ -37,21 +57,20 @@ This project follows **Spec-Driven Development (SDD)** to maintain a clear roadm
 
 ## 🚀 Getting Started
 
-1. **Get an API Key**: Obtain a free User Access Token from [Hugging Face Settings](https://huggingface.co/settings/tokens).
-2. **Clone the Repo**:
+1. **Clone the Repo**:
    ```bash
    git clone https://github.com/gehdoc/quick-tripper.git
    cd quick-tripper
    ```
-3. **Install Dependencies**:
+2. **Install Dependencies**:
    ```bash
    npm install
    ```
-4. **Run Locally**:
+3. **Run Locally**:
    ```bash
    npm run dev
    ```
-5. **Open the App**: Visit `http://localhost:3000` (development) or `http://localhost:3000/quick-tripper` (production-emulated) and enter your API key in the top bar.
+4. **Open the App**: Visit `http://localhost:3000` (development) or `http://localhost:3000/quick-tripper` (production-emulated) and enter your API key in the top bar.
 
 ## 🏗️ Architecture
 
@@ -67,16 +86,6 @@ To maintain a robust "zero-backend" application, we rely on a multi-tiered valid
 4. **Unit Testing**: Vitest and JSDOM validate core logic, utility functions, and presentational components (co-located tests).
 5. **E2E Testing**: Playwright validates full user workflows and "golden paths" in a real browser environment.
 6. **Spec-First Implementation**: Every change is traced back to a technical specification in `specs/`, ensuring architectural alignment.
-
-## 📦 Deployment
-
-This project is optimized for static hosting on **GitHub Pages**:
-
-```bash
-npm run deploy
-```
-
-_Note: This command runs `next build` with `output: 'export'` and pushes the `out` directory to the `gh-pages` branch._
 
 ## 📄 License
 

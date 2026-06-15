@@ -13,13 +13,14 @@ describe('GenerationForm', () => {
         isLoading={false}
       />,
     );
-    const input = screen.getByPlaceholderText(/Ex: A 4-day hike itinerary/i);
-    expect(input).toBeInTheDocument();
-    expect(input).toHaveValue('Initial prompt');
+    const textarea = screen.getByPlaceholderText(/Ex: A 4-day hike itinerary/i);
+    expect(textarea).toBeInTheDocument();
+    expect(textarea.tagName).toBe('TEXTAREA');
+    expect(textarea).toHaveValue('Initial prompt');
     expect(screen.queryByRole('status')).not.toBeInTheDocument(); // spinner check
   });
 
-  it('calls onPromptChange when input changes', () => {
+  it('calls onPromptChange when textarea changes', () => {
     const handleChange = vi.fn();
     render(
       <GenerationForm
@@ -29,8 +30,8 @@ describe('GenerationForm', () => {
         isLoading={false}
       />,
     );
-    const input = screen.getByPlaceholderText(/Ex: A 4-day hike itinerary/i);
-    fireEvent.change(input, { target: { value: 'New prompt' } });
+    const textarea = screen.getByPlaceholderText(/Ex: A 4-day hike itinerary/i);
+    fireEvent.change(textarea, { target: { value: 'New prompt' } });
     expect(handleChange).toHaveBeenCalledWith('New prompt');
   });
 
@@ -44,12 +45,12 @@ describe('GenerationForm', () => {
         isLoading={false}
       />,
     );
-    const button = screen.getByRole('button');
+    const button = screen.getByText(/Generate Itinerary/i);
     fireEvent.click(button);
     expect(handleGenerate).toHaveBeenCalled();
   });
 
-  it('shows loading state and disables input/button', () => {
+  it('shows loading state and disables textarea/button', () => {
     render(
       <GenerationForm
         prompt="Processing"
@@ -58,10 +59,10 @@ describe('GenerationForm', () => {
         isLoading={true}
       />,
     );
-    const input = screen.getByPlaceholderText(/Ex: A 4-day hike itinerary/i);
+    const textarea = screen.getByPlaceholderText(/Ex: A 4-day hike itinerary/i);
     const button = screen.getByRole('button');
 
-    expect(input).toBeDisabled();
+    expect(textarea).toBeDisabled();
     expect(button).toBeDisabled();
     expect(button.querySelector('.loading-spinner')).toBeInTheDocument();
   });

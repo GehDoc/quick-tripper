@@ -1,40 +1,47 @@
+export interface TripDetails {
+  title: string;
+  start: string;
+  stop: string;
+  content: string;
+}
+
 export interface GenerationOptions {
   apiKey: string;
   prompt: string;
 }
 
 const SYSTEM_PROMPT = `
-Tu es un assistant strict spécialisé dans la rédaction de carnets de voyage. Ton unique rôle est de transformer les notes de l'utilisateur en un article structuré en Markdown.
+You are a travel itinerary expert. Transform user notes into a structured JSON object.
+TONE: Factual, concise, and informative. No poetic or romanced language.
 
-RÈGLES ABSOLUES :
-1. N'utilise jamais d'image d'illustration (pas de syntaxe ![]).
-2. Génère une carte interactive en créant une iframe HTML. Pour tracer le trajet, utilise STRICTEMENT ce format d'URL publique avec le point de départ et d'arrivée séparés par un slash :
-src="https://www.google.com/maps?saddr=[DEPART]&daddr=[ARRIVEE]&output=embed"
-(Exemple pour Hiroshima à Tsuwano : src="https://www.google.com/maps?saddr=Hiroshima,Japan&daddr=Tsuwano,Japan&output=embed")
-3. Crée un lien hypertexte nommé "Ouvrir l'itinéraire détaillé dans Google Maps" pointant vers la recherche d'itinéraire standard : https://www.google.com/maps/dir/[DEPART]/[ARRIVEE]/
+RULES:
+1. Output MUST be valid JSON.
+2. Language: Use the SAME language as the user's request for all content and headers.
+3. Headers: Use '###' (Heading 3) for all section titles.
+4. Title: Follow the pattern "[Destination]: [Catchphrase]" (e.g., "Tsuwano: Charme et authenticité").
+5. Geocoding: For the "start" and "stop" fields, provide the full geographic name (e.g., "City, State/Province, Country").
+6. Maps: At the VERY BEGINNING of the 'content' field, provide a standard markdown link to the Google Maps directions.
+   The link name MUST be the localized version of "Open itinerary in Google Maps" (e.g., "Ouvrir l'itinéraire dans Google Maps").
+   URL Format: Use '+' instead of spaces/commas in the URL path.
+   Example: [Ouvrir l'itinéraire dans Google Maps](https://www.google.com/maps/dir/City+State+Country/City+State+Country/)
+   This link MUST be the first line of the content.
+7. Logistics: List start and end points below the map link.
+8. No Title: Do NOT include the trip title inside the 'content' markdown.
 
-STRUCTURE STRICTE À RESPECTER POUR CHAQUE ITINÉRAIRE :
-# [Nom de la Destination] : [Un Slogan accrocheur]
-
-## 🗺️ Infos Trajet & Logistique
-* **Départ :** [Point de départ]
-* **Arrivée :** [Destination]
-* **Mode de transport :** [Le mode indiqué]
-* **Estimation :** [Estime la distance en km et le temps de route de manière réaliste]
-
-[Insérer l'iframe de la carte ici]
-
-*🔗 [Insérer le lien texte vers Google Maps ici]*
-
----
-
-## 🎒 Chronique du jour & Activités
-[Rédige un récit vivant, fluide et immersif à la première personne du pluriel, en développant les activités et le cadre fournis par l'utilisateur].
+JSON SCHEMA:
+{
+  "title": "Destination: Catchphrase",
+  "start": "City, State, Country",
+  "stop": "City, State, Country",
+  "content": "[Ouvrir l'itinéraire dans Google Maps](URL)\\n\\n### Section Name\\n- **Data**: Value"
+}
 `.trim();
 
-export async function generateItinerary({ apiKey, prompt }: GenerationOptions): Promise<string> {
-  // Calling the Hugging Face Router endpoint directly (OpenAI compatible)
-  // This allows the app to work on static hosting like GitHub Pages
+export async function generateItinerary({
+  apiKey,
+  prompt,
+}: GenerationOptions): Promise<TripDetails> {
+  // Calling the Hugging Face Router endpoint (OpenAI compatible)
   const response = await fetch('https://router.huggingface.co/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -44,14 +51,8 @@ export async function generateItinerary({ apiKey, prompt }: GenerationOptions): 
     body: JSON.stringify({
       model: 'meta-llama/Llama-3.1-8B-Instruct',
       messages: [
-        {
-          role: 'system',
-          content: SYSTEM_PROMPT,
-        },
-        {
-          role: 'user',
-          content: prompt,
-        },
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: `User request: ${prompt}` },
       ],
       temperature: 0.2,
       max_tokens: 2048,
@@ -65,13 +66,19 @@ export async function generateItinerary({ apiKey, prompt }: GenerationOptions): 
   }
 
   const data = await response.json();
+  const text = data.choices?.[0]?.message?.content;
 
-  // Extract content from OpenAI-compatible Chat Completion structure
-  const content = data.choices?.[0]?.message?.content;
-
-  if (!content) {
+  if (!text) {
     throw new Error('No itinerary content received from the AI.');
   }
 
-  return content;
+  try {
+    // Attempt to extract JSON if the model wrapped it in markdown code blocks
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const jsonString = jsonMatch ? jsonMatch[0] : text;
+    return JSON.parse(jsonString) as TripDetails;
+  } catch (err) {
+    console.error('Failed to parse AI response as JSON:', text, err);
+    throw new Error('Invalid response format from AI.');
+  }
 }

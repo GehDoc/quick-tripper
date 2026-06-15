@@ -2,8 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test('golden path - generate trip', async ({ page }) => {
   await page.goto('/');
-  // Mock API
-  await page.route('https://router.huggingface.co/v1/chat/completions', (route) =>
+
+  // Mock Hugging Face API (OpenAI compatible)
+  await page.route('**/v1/chat/completions', (route) =>
     route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -11,7 +12,12 @@ test('golden path - generate trip', async ({ page }) => {
         choices: [
           {
             message: {
-              content: '# Golden Trip\nThis is a mocked itinerary.',
+              content: JSON.stringify({
+                title: 'Golden Trip',
+                start: 'Zurich',
+                stop: 'Interlaken',
+                content: '### Golden Trip\nThis is a mocked itinerary.',
+              }),
             },
           },
         ],
@@ -19,13 +25,18 @@ test('golden path - generate trip', async ({ page }) => {
     }),
   );
 
-  // Enter API Key
-  await page.getByPlaceholder('HuggingFace API Token').fill('dummy-key');
-  // Enter Destination
-  await page.getByPlaceholder('Ex: A 4-day hike').fill('Swiss Alps');
-  // Send
-  await page.locator('.join').getByRole('button').click(); // Send icon button within join component
+  // Enter API Key (Restored Hugging Face placeholder)
+  await page.getByPlaceholder('HuggingFace API Token').fill('hf_dummy-key');
 
-  // Verify
-  await expect(page.getByText('Golden Trip')).toBeVisible();
+  // Enter Prompt (Textarea)
+  await page.getByPlaceholder(/Ex: A 4-day hike itinerary/i).fill('Swiss Alps');
+
+  // Send
+  await page.getByRole('button', { name: /Generate Itinerary/i }).click();
+
+  // Verify Heading (Rendered in Navigator) - Using .first() or specific role to avoid ambiguity
+  await expect(page.getByRole('heading', { name: 'Golden Trip' })).toBeVisible();
+
+  // Verify Content
+  await expect(page.getByText('This is a mocked itinerary.')).toBeVisible();
 });

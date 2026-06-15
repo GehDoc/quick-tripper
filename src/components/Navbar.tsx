@@ -9,7 +9,7 @@ interface NavbarProps {
   onApiKeyChange: (value: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ apiKey, onApiKeyChange }) => {
+export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChange }) => {
   return (
     <div className="navbar bg-base-100 shadow-xl rounded-box justify-between gap-4 p-4">
       <div className="flex items-center gap-3">
@@ -43,4 +43,6 @@ export const Navbar: React.FC<NavbarProps> = ({ apiKey, onApiKeyChange }) => {
       </div>
     </div>
   );
-};
+});
+
+Navbar.displayName = 'Navbar';
