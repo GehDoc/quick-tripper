@@ -23,7 +23,7 @@ This specification is a direct continuation of `v1`. After implementing the UI c
   - **Structured JSON**: Enforce JSON output in the system prompt.
   - **Fact over Romance**: Standardize on a factual tone.
   - **Simplified Logistics**: Only infer duration/distance if explicitly requested and transportation is specified.
-- **Maps**: Retain URL-based map rendering and secure iframe support for Google Maps.
+- **Maps**: Retain the **automatic iframe rendering** logic from v1. The application will detect standard Google Maps direction URLs and transform them into embedded iframe views for a seamless visual experience.
 
 ## 3. Technical Changes
 

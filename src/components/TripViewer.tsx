@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import { FiTrash2 as Trash2 } from 'react-icons/fi';
 import { Logo } from '@/components/Logo';
 import { Trip } from '@/types/trip';
@@ -9,6 +10,16 @@ interface TripViewerProps {
   trip: Trip;
   onDelete: (id: string) => void;
 }
+
+/**
+ * Custom sanitization schema.
+ * We block all iframes by default and only allow them via our custom 'a' component.
+ * We also block images to respect the 'No illustration' rule.
+ */
+const sanitizeSchema = {
+  ...defaultSchema,
+  tagNames: defaultSchema.tagNames?.filter((tag) => tag !== 'iframe' && tag !== 'img'),
+};
 
 export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelete }) => {
   return (
@@ -25,35 +36,24 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
         <article className="prose max-w-none text-base-content leading-relaxed">
           <h1 className="text-3xl font-bold mb-4">{trip.title}</h1>
           <ReactMarkdown
-            rehypePlugins={[rehypeRaw]}
+            rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema]]}
             components={{
-              iframe: ({ src, ...props }) => {
-                const isGoogleMap =
-                  src?.startsWith('https://www.google.com/maps/embed') ||
-                  src?.startsWith('https://www.google.com/maps?') ||
-                  src?.startsWith('https://maps.google.com/');
-
-                if (!isGoogleMap) {
-                  return (
-                    <div className="p-4 bg-error/10 text-error text-xs rounded-box">
-                      Blocked unsafe iframe: {src}
-                    </div>
-                  );
-                }
-
-                return (
-                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg my-6 border border-base-300">
-                    <iframe
-                      src={src}
-                      className="w-full h-full border-0"
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      {...props}
-                    />
-                  </div>
+              // React 19 / HTML Validation: Ensure we don't nest <div> (from maps) inside <p>
+              p: ({ children }) => {
+                // If a child is a map (wrapped in our custom <a>), render as <div> to avoid <p> nesting
+                const hasMap = React.Children.toArray(children).some(
+                  (child) =>
+                    React.isValidElement(child) &&
+                    child.type === 'a' &&
+                    (child.props as { href?: string }).href?.includes('google.com/maps'),
+                );
+                return hasMap ? (
+                  <div className="mb-4">{children}</div>
+                ) : (
+                  <p className="mb-4">{children}</p>
                 );
               },
+              iframe: () => null,
               a: ({ href, children }) => {
                 const isGoogleMap =
                   href?.startsWith('https://www.google.com/maps/embed') ||
@@ -72,8 +72,8 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
                   }
 
                   return (
-                    <div className="flex flex-col gap-4 my-8">
-                      <div className="w-full aspect-[16/9] rounded-xl overflow-hidden shadow-lg border border-base-300">
+                    <span className="block my-8">
+                      <span className="block w-full aspect-[16/9] rounded-xl overflow-hidden shadow-lg border border-base-300">
                         <iframe
                           src={embedUrl}
                           className="w-full h-full border-0"
@@ -81,17 +81,17 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
                           loading="lazy"
                           referrerPolicy="no-referrer-when-downgrade"
                         />
-                      </div>
+                      </span>
                       <a
                         href={href}
                         target="_blank"
                         rel="noreferrer"
-                        className="btn btn-secondary btn-sm gap-2 self-start no-underline shadow-sm hover:scale-[1.02] transition-transform"
+                        className="btn btn-secondary btn-sm gap-2 mt-4 no-underline shadow-sm hover:scale-[1.02] transition-transform inline-flex"
                       >
                         <Logo className="w-3 h-3" /> Ouvrir l&apos;itinéraire détaillé dans Google
                         Maps
                       </a>
-                    </div>
+                    </span>
                   );
                 }
 

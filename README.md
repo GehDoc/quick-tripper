@@ -15,6 +15,7 @@
 - **🔒 Privacy-First**: "Bring Your Own Key" (BYOK) model. Your API token is stored locally in your browser and never sent to our servers.
 - **🔗 Compressed Sharing**: Share your entire itinerary via a single, ultra-compressed URL (powered by LZString).
 - **💾 Local Persistence**: Automatic synchronization with your browser's local storage.
+- **🛡️ Secure Rendering**: Strict markdown sanitization to prevent XSS and ensure your browser environment remains safe.
 
 ## 📖 How-to Use
 

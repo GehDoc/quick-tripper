@@ -12,6 +12,7 @@ Thank you for your interest in contributing! We follow a **Spec-Driven Developme
 ## 💻 Coding Standards
 
 - **No Inline Styles**: To ensure maintainability and style consistency, inline styles (`style={{ ... }}`) are prohibited in production components. Use Tailwind classes exclusively.
+- **Markdown Security**: All AI-generated content MUST be passed through the sanitization pipeline in `TripViewer.tsx`. Never use `dangerouslySetInnerHTML` or disable sanitization without a security review. Any new component added to the markdown renderer must be explicitly whitelisted in the sanitization schema.
 
 ## 🔄 Workflow & Automation
 
