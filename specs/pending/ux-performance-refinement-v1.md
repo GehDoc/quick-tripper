@@ -1,10 +1,22 @@
-# Spec: UX, Performance, and Inference Refinement
+# Spec: UX, Performance, and Inference Refinement (v1)
 
-**Status**: 🟡 In Progress
+**Status**: 🛑 HALTED (Pivoted to v2)
 **Author**: Gemini CLI
 **Date**: 2026-06-14
 
+## 🛑 PIVOT NOTICE (2026-06-15)
+
+This specification has been halted after the initial implementation of the UI and Data Model v2. The transition to Gemini 1.5 with Google Search grounding proved unsustainable for the following reasons:
+
+1. **API Complexity**: Payload and auth stabilization with Gemini was significantly more complex than Hugging Face.
+2. **Sustainability**: Search tool credit consumption is too high for a free-tier/low-cost BYOK model.
+3. **Requirement Re-evaluation**: Real-time grounding is not critical for this use case; static LLM knowledge is sufficient.
+
+**Remaining tasks have been moved to `ux-performance-refinement-v2.md`.**
+
 ## 1. Overview
+
+... (rest of the content remains for history)
 
 This specification covers improvements to the user experience (UX), application performance, and AI inference quality. We are migrating from Hugging Face to **Gemini (Google AI)** to leverage its superior reasoning and **Google Search grounding** for real-time travel data. The goal is to provide a more robust prompt input, reduce unnecessary re-renders, and extract structured data from the AI.
 
