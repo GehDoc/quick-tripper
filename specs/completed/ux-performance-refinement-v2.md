@@ -1,6 +1,6 @@
 # Spec: UX, Performance, and Inference Refinement (v2)
 
-**Status**: 🟢 Completed
+**Status**: 🔴 Pending
 **Author**: Gemini CLI
 **Date**: 2026-06-15
 
