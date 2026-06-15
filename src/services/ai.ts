@@ -11,85 +11,66 @@ export interface GenerationOptions {
 }
 
 const SYSTEM_PROMPT = `
-You are a strict assistant specialized in writing travel journals.
-Your goal is to transform user notes into a structured JSON object.
+You are a travel itinerary expert. Transform user notes into a structured JSON object.
+TONE: Factual, concise, and informative. No poetic or romanced language.
 
 RULES:
-1. Use Google Search to verify locations, opening hours, and routes.
-2. The content must be factual, concise, and useful. Avoid flowery "romanced" language.
-3. NEVER use illustration images.
-4. For maps, include a standard Google Maps URL in the markdown content.
-   Format: https://www.google.com/maps/dir/[START]/[STOP]/
-5. Output MUST be a valid JSON object with the following fields:
-   - title: A clean, catchy title for the trip.
-   - start: The starting point of the journey.
-   - stop: The final destination.
-   - content: The itinerary in Markdown format.
+1. Output MUST be valid JSON.
+2. Do not include images.
+3. Maps: Include a Google Maps direction URL: https://www.google.com/maps/dir/[START]/[STOP]/
+4. Logistics: Do NOT infer travel time or distance unless the user provided a transportation mode.
 
-MARKDOWN STRUCTURE FOR 'content':
-## 🗺️ Logistics
-* **Start:** [Start]
-* **End:** [Stop]
-* **Estimation:** [Distance in km and driving time]
-
-[Google Maps URL here]
-
----
-## 🎒 Itinerary
-[Day by day description, concise and factual]
+JSON SCHEMA:
+{
+  "title": "Clean Trip Title",
+  "start": "Starting Point",
+  "stop": "End Point",
+  "content": "Markdown itinerary here"
+}
 `.trim();
 
 export async function generateItinerary({
   apiKey,
   prompt,
 }: GenerationOptions): Promise<TripDetails> {
-  const model = 'gemini-3.1-flash-lite';
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-
-  const response = await fetch(url, {
+  // Calling the Hugging Face Router endpoint (OpenAI compatible)
+  const response = await fetch('https://router.huggingface.co/v1/chat/completions', {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
-      'x-goog-api-key': apiKey,
     },
     body: JSON.stringify({
-      contents: [
-        {
-          role: 'user',
-          parts: [{ text: SYSTEM_PROMPT }, { text: `User request: ${prompt}` }],
-        },
+      model: 'meta-llama/Llama-3.1-8B-Instruct',
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: `User request: ${prompt}` },
       ],
-      tools: [
-        {
-          google_search: {},
-        },
-      ],
-      generationConfig: {
-        temperature: 0.2,
-        topP: 0.8,
-        topK: 40,
-        maxOutputTokens: 2048,
-        responseMimeType: 'application/json',
-      },
+      temperature: 0.2,
+      max_tokens: 2048,
+      stream: false,
     }),
   });
 
   if (!response.ok) {
     const errData = await response.json().catch(() => ({}));
-    throw new Error(errData.error?.message || `Gemini API Error (${response.status})`);
+    throw new Error(errData.error?.message || `AI Service Error (${response.status})`);
   }
 
   const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  const text = data.choices?.[0]?.message?.content;
 
   if (!text) {
-    throw new Error('No content received from Gemini.');
+    throw new Error('No itinerary content received from the AI.');
   }
 
   try {
-    return JSON.parse(text) as TripDetails;
-  } catch {
-    console.error('Failed to parse Gemini response as JSON:', text);
+    // Attempt to extract JSON if the model wrapped it in markdown code blocks
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const jsonString = jsonMatch ? jsonMatch[0] : text;
+    return JSON.parse(jsonString) as TripDetails;
+  } catch (err) {
+    console.error('Failed to parse AI response as JSON:', text, err);
     throw new Error('Invalid response format from AI.');
   }
 }

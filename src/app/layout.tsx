@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://gehdoc.github.io/quick-tripper'),
   title: 'Quick-tripper — Serverless AI Itinerary Planner',
   description:
-    'Generate, compress, and instantly share markdown travel itineraries completely client-side via Gemini 1.5.',
+    'Generate, compress, and instantly share markdown travel itineraries completely client-side via Hugging Face.',
   robots: 'index, follow',
   icons: {
     icon: '/icon.svg',

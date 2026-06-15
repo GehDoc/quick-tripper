@@ -34,7 +34,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChang
           <Key className="w-4 h-4 opacity-60" />
           <input
             type="password"
-            placeholder="Gemini API Key"
+            placeholder="HuggingFace API Token"
             value={apiKey}
             onChange={(e) => onApiKeyChange(e.target.value)}
             className="w-full max-w-xs"

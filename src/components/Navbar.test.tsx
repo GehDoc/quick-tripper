@@ -12,7 +12,7 @@ describe('Navbar', () => {
 
   it('renders the API key input with correct value', () => {
     render(<Navbar apiKey="test-key" onApiKeyChange={() => {}} />);
-    const input = screen.getByPlaceholderText(/Gemini API Key/i);
+    const input = screen.getByPlaceholderText(/HuggingFace API Token/i);
     expect(input).toBeInTheDocument();
     expect(input).toHaveValue('test-key');
   });
@@ -20,7 +20,7 @@ describe('Navbar', () => {
   it('calls onApiKeyChange when input changes', () => {
     const handleChange = vi.fn();
     render(<Navbar apiKey="" onApiKeyChange={handleChange} />);
-    const input = screen.getByPlaceholderText(/Gemini API Key/i);
+    const input = screen.getByPlaceholderText(/HuggingFace API Token/i);
 
     fireEvent.change(input, { target: { value: 'new-key' } });
     expect(handleChange).toHaveBeenCalledWith('new-key');
