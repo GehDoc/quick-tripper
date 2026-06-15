@@ -66,12 +66,24 @@ JSON SCHEMA:
   - `docs/ARCHITECTURE.md`
   - `src/components/Navbar.tsx` (Placeholder text).
 
+### 3.4 UI and Prompt Refinement (Final Polish)
+
+To align the visual quality with the structured data, we will:
+
+1.  **Prompt**: Remove redundant prefixes (e.g., "Google Maps:") and mandate `###` for all section headers. Ensure the AI uses the user's language for all headers.
+2.  **UI**: Remove the redundant `{trip.title}` rendering inside `TripViewer`.
+3.  **Typography**: Update `TripViewer.tsx` to include explicit Tailwind utility overrides for `h3` and `li` tags to fix the "flat" appearance of the `prose` class.
+
 ## 4. Task List
 
-- [ ] Revert `src/services/ai.ts` to Hugging Face Router.
-- [ ] Refine `SYSTEM_PROMPT` for Llama 3.1.
-- [ ] Update documentation to restore Hugging Face branding.
-- [ ] Update unit tests for `ai.ts`.
+- [x] Revert `src/services/ai.ts` to Hugging Face Router.
+- [x] Refine `SYSTEM_PROMPT` for Llama 3.1.
+- [x] Update documentation to restore Hugging Face branding.
+- [x] Update unit tests for `ai.ts`.
+- [x] Implement strict sanitization in `TripViewer.tsx` using `rehype-sanitize`.
+- [x] Update `ARCHITECTURE.md`, `CONTRIBUTING.md`, and `README.md` with security details.
+- [ ] Implement UI Polish (Remove redundant title, fix `prose` scaling).
+- [ ] Refine `SYSTEM_PROMPT` to remove redundant labels and enforce language consistency.
 - [ ] Final verification pass (`npm run check`).
 
 ## 5. Verification Plan

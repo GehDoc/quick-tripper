@@ -7,17 +7,21 @@ import { Trip } from '@/types/trip';
 const mockTrip: Trip = {
   id: 'trip-1',
   prompt: 'Tokyo trip',
-  title: 'Tokyo',
+  title: 'Tokyo Destination',
   content:
-    '# Tokyo Trip\n\n[Google Maps link](https://www.google.com/maps/dir/Tokyo/Kyoto/)\n\n<iframe src="https://www.google.com/maps/embed?pb=1"></iframe>',
+    '# Tokyo Trip Header\n\n[Google Maps link](https://www.google.com/maps/dir/Tokyo/Kyoto/)\n\n<iframe src="https://www.google.com/maps/embed?pb=1"></iframe>',
   createdAt: '2023-10-27',
 };
 
 describe('TripViewer', () => {
-  it('renders trip title and markdown content', () => {
+  it('renders markdown content but NOT the trip.title anymore', () => {
     render(<TripViewer trip={mockTrip} onDelete={() => {}} />);
-    expect(screen.getByText('Tokyo')).toBeInTheDocument();
-    expect(screen.getByText(/Tokyo Trip/i)).toBeInTheDocument();
+
+    // trip.title (Tokyo Destination) should NOT be rendered in the card anymore
+    expect(screen.queryByText('Tokyo Destination')).not.toBeInTheDocument();
+
+    // Markdown content should still be there
+    expect(screen.getByText(/Tokyo Trip Header/i)).toBeInTheDocument();
   });
 
   it('calls onDelete when delete button is clicked', () => {

@@ -34,11 +34,17 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
         </button>
 
         <article className="prose max-w-none text-base-content leading-relaxed">
-          <h1 className="text-3xl font-bold mb-4">{trip.title}</h1>
           <ReactMarkdown
             rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema]]}
             components={{
-              // React 19 / HTML Validation: Ensure we don't nest <div> (from maps) inside <p>
+              // Typography Scaling & Spacing Refinements
+              h3: ({ children }) => (
+                <h3 className="text-xl font-bold mt-8 mb-4 border-b border-base-content/10 pb-2">
+                  {children}
+                </h3>
+              ),
+              ul: ({ children }) => <ul className="list-disc space-y-2 mb-6">{children}</ul>,
+              li: ({ children }) => <li className="ml-4">{children}</li>,
               p: ({ children }) => {
                 // If a child is a map (wrapped in our custom <a>), render as <div> to avoid <p> nesting
                 const hasMap = React.Children.toArray(children).some(
@@ -48,9 +54,9 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
                     (child.props as { href?: string }).href?.includes('google.com/maps'),
                 );
                 return hasMap ? (
-                  <div className="mb-4">{children}</div>
+                  <div className="mb-6">{children}</div>
                 ) : (
-                  <p className="mb-4">{children}</p>
+                  <p className="mb-6">{children}</p>
                 );
               },
               iframe: () => null,
