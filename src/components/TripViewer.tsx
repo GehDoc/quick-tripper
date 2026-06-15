@@ -33,6 +33,13 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
           <Trash2 className="w-4 h-4" />
         </button>
 
+        <div className="mb-6 flex flex-col gap-1">
+          <span className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/60">
+            From
+          </span>
+          <h2 className="text-lg font-bold text-base-content/80">{trip.start}</h2>
+        </div>
+
         <article className="prose max-w-none text-base-content leading-relaxed">
           <ReactMarkdown
             rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema]]}
