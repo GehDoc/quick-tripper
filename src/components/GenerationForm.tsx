@@ -33,12 +33,12 @@ export const GenerationForm: React.FC<GenerationFormProps> = ({
             className="textarea textarea-bordered w-full min-h-[60px] max-h-[60px] focus:outline-none text-sm resize-none"
           />
         </div>
-        <div className="flex flex-col items-end gap-2 w-full lg:w-auto flex-none">
+        <div className="flex flex-col items-end gap-2 w-full lg:w-auto flex-none self-end">
           {error && <p className="text-error text-[10px] font-bold truncate max-w-xs">{error}</p>}
           <button
             onClick={onGenerate}
             disabled={isLoading || !prompt.trim()}
-            className="btn btn-primary btn-sm px-10 shadow-md whitespace-nowrap h-[60px]"
+            className="btn btn-primary btn-sm px-10 shadow-md whitespace-nowrap"
           >
             {isLoading ? (
               <span className="loading loading-spinner loading-xs"></span>
