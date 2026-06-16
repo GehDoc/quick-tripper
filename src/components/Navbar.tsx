@@ -16,28 +16,28 @@ export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChang
   const pathname = usePathname();
 
   const navLinks = [
-    { href: '/', label: 'Planner', icon: <IoMapOutline className="w-4 h-4" /> },
-    { href: '/about', label: 'About', icon: <IoInformationCircleOutline className="w-4 h-4" /> },
-    { href: '/how-to', label: 'How-to', icon: <IoBookOutline className="w-4 h-4" /> },
+    { href: '/', label: 'Planner', icon: <IoMapOutline className="w-5 h-5" /> },
+    { href: '/about', label: 'About', icon: <IoInformationCircleOutline className="w-5 h-5" /> },
+    { href: '/how-to', label: 'How-to', icon: <IoBookOutline className="w-5 h-5" /> },
   ];
 
   return (
-    <div className="navbar bg-transparent justify-between gap-4 p-2 px-6 min-h-[64px]">
-      <div className="flex items-center gap-4">
-        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <Logo className="text-primary w-8 h-8" />
+    <div className="navbar bg-transparent justify-between gap-6 p-4 px-8 min-h-[80px]">
+      <div className="flex items-center gap-6">
+        <Link href="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
+          <Logo className="text-primary w-10 h-10" />
           <div className="hidden sm:flex flex-col">
-            <span className="font-bold text-lg tracking-tight leading-none">Quick-tripper</span>
-            <span className="text-[10px] text-base-content/40">v{VERSION}</span>
+            <span className="font-bold text-xl tracking-tight leading-none">Quick-tripper</span>
+            <span className="text-xs text-base-content/40 mt-1">v{VERSION}</span>
           </div>
         </Link>
 
-        <div className="hidden md:flex items-center gap-1 ml-4">
+        <div className="hidden lg:flex items-center gap-2 ml-6">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`btn btn-sm btn-ghost gap-2 ${pathname === link.href ? 'btn-active bg-base-200' : ''}`}
+              className={`btn btn-ghost gap-2 px-4 ${pathname === link.href ? 'btn-active bg-base-200' : ''}`}
             >
               {link.icon}
               {link.label}
@@ -46,17 +46,17 @@ export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChang
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
         {onApiKeyChange && (
           <div className="form-control">
-            <label className="input input-bordered flex items-center gap-2 input-sm">
-              <Key className="w-3 h-3 opacity-60" />
+            <label className="input input-bordered flex items-center gap-3">
+              <Key className="w-4 h-4 opacity-60" />
               <input
                 type="password"
                 placeholder="HF Token"
                 value={apiKey}
                 onChange={(e) => onApiKeyChange(e.target.value)}
-                className="w-32 sm:w-40 lg:w-48"
+                className="w-40 sm:w-52 lg:w-64"
               />
             </label>
           </div>
@@ -66,18 +66,18 @@ export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChang
           href={REPO_URL}
           target="_blank"
           rel="noreferrer"
-          className="btn btn-sm btn-ghost btn-circle"
+          className="btn btn-ghost btn-circle"
           title="GitHub Repository"
         >
-          <GitHub className="w-4 h-4" />
+          <GitHub className="w-6 h-6" />
         </a>
 
         {/* Mobile Nav Toggle */}
-        <div className="dropdown dropdown-end md:hidden">
-          <label tabIndex={0} className="btn btn-sm btn-ghost btn-circle">
+        <div className="dropdown dropdown-end lg:hidden">
+          <label tabIndex={0} className="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChang
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="4 6h16M4 12h16M4 18h7"
+                d="M4 6h16M4 12h16M4 18h7"
               />
             </svg>
           </label>

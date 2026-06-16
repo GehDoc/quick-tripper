@@ -24,13 +24,13 @@ export const Footer: React.FC = () => {
         </a>
       </nav>
       <aside>
-        <p className="flex items-center gap-1 opacity-70">
+        <p className="flex items-center gap-2 text-base opacity-70">
           Made with <IoHeart className="text-error" /> for privacy-conscious travelers.
         </p>
-        <p className="text-xs opacity-50 mt-2">
+        <p className="text-sm opacity-50 mt-2">
           © {new Date().getFullYear()} Quick-tripper — MIT License
         </p>
-        <div className="flex gap-4 mt-4 opacity-30 text-[10px]">
+        <div className="flex gap-6 mt-6 opacity-40 text-xs font-medium uppercase tracking-widest">
           <span>Zero Cookies</span>
           <span>Zero Tracking</span>
           <span>Zero Backend</span>

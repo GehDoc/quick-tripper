@@ -54,9 +54,9 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
                 href={mapUrl || '#'}
                 target="_blank"
                 rel="noreferrer"
-                className="btn btn-secondary btn-sm absolute bottom-4 xl:bottom-8 left-1/2 -translate-x-1/2 gap-2 shadow-2xl opacity-90 hover:opacity-100 transition-all border-none scale-100 xl:scale-110 px-6 xl:px-10 z-10"
+                className="btn btn-secondary absolute bottom-6 xl:bottom-10 left-1/2 -translate-x-1/2 gap-3 shadow-2xl opacity-90 hover:opacity-100 transition-all border-none scale-100 xl:scale-110 px-8 xl:px-12 z-10"
               >
-                <Logo className="w-4 h-4" /> Open Detailed Route
+                <Logo className="w-5 h-5" /> Open Detailed Route
               </a>
             </div>
           </div>
@@ -69,48 +69,50 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
 
       {/* Left Pane (Notes): Below on mobile/tablet, side-by-side above XL */}
       <div className="order-2 xl:order-1 xl:col-span-3 flex flex-col xl:border-r border-base-300 min-h-0">
-        <div className="bg-base-200/50 px-6 py-4 border-b border-base-300 flex justify-between items-center flex-none">
+        <div className="bg-base-200/50 px-6 py-5 border-b border-base-300 flex justify-between items-center flex-none">
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase tracking-widest font-black text-primary/60">
+            <span className="text-xs uppercase tracking-widest font-black text-primary/60">
               Arrival Details
             </span>
-            <h2 className="text-sm font-bold text-base-content/80 truncate">
+            <h2 className="text-base font-bold text-base-content/80 truncate">
               {trip.stop || 'Destination'}
             </h2>
           </div>
           <button
             onClick={() => onDelete(trip.id)}
-            className="btn btn-ghost btn-xs btn-circle text-error/40 hover:text-error transition-colors"
+            className="btn btn-ghost btn-sm btn-circle text-error/40 hover:text-error transition-colors"
             title="Remove trip"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="xl:flex-grow xl:overflow-y-auto p-6 lg:p-8 custom-scrollbar bg-base-100">
-          <div className="mb-6">
-            <span className="text-[10px] uppercase font-bold opacity-40">Departing from</span>
-            <p className="text-xs font-medium text-primary leading-tight">{trip.start}</p>
+        <div className="xl:flex-grow xl:overflow-y-auto p-6 xl:p-10 custom-scrollbar bg-base-100">
+          <div className="mb-8">
+            <span className="text-xs uppercase font-bold opacity-40 tracking-wider">
+              Departing from
+            </span>
+            <p className="text-sm font-semibold text-primary mt-1">{trip.start}</p>
           </div>
 
-          <article className="prose prose-sm max-w-none text-base-content leading-relaxed">
+          <article className="prose max-w-none text-base-content leading-relaxed">
             <ReactMarkdown
               rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema]]}
               components={{
                 h3: ({ children }) => (
-                  <h3 className="text-lg font-bold mt-2 mb-3 border-b border-base-content/10 pb-1">
+                  <h3 className="text-xl font-bold mt-4 mb-4 border-b border-base-content/10 pb-2">
                     {children}
                   </h3>
                 ),
-                ul: ({ children }) => <ul className="list-disc space-y-1 mb-4 ml-4">{children}</ul>,
-                li: ({ children }) => <li className="mb-1">{children}</li>,
-                p: ({ children }) => <p className="mb-4">{children}</p>,
+                ul: ({ children }) => <ul className="list-disc space-y-2 mb-6 ml-4">{children}</ul>,
+                li: ({ children }) => <li className="mb-2">{children}</li>,
+                p: ({ children }) => <p className="mb-6">{children}</p>,
                 a: ({ href, children }) => (
                   <a
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-primary hover:underline font-medium"
+                    className="text-primary hover:underline font-bold"
                   >
                     {children}
                   </a>

@@ -11,25 +11,22 @@ interface WorkspaceActionsProps {
 export const WorkspaceActions: React.FC<WorkspaceActionsProps> = React.memo(
   ({ totalTrips, onExport, onImport, onShare }) => {
     return (
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <h2 className="text-[10px] tracking-[0.2em] font-black uppercase opacity-40 mb-2">
+          <h2 className="text-xs tracking-widest font-black uppercase opacity-50 mb-3 px-1">
             Local Workspace
           </h2>
           <div className="flex gap-2">
             <button
               disabled={totalTrips === 0}
               onClick={onExport}
-              className="btn btn-outline btn-xs flex-1 text-[10px]"
+              className="btn btn-outline flex-1"
               title="Export trips as JSON"
             >
-              <Download className="w-3 h-3" /> Export
+              <Download className="w-5 h-5" /> Export
             </button>
-            <label
-              className="btn btn-outline btn-xs flex-1 text-[10px]"
-              title="Import trips from JSON"
-            >
-              <Upload className="w-3 h-3" /> Import
+            <label className="btn btn-outline flex-1" title="Import trips from JSON">
+              <Upload className="w-5 h-5" /> Import
               <input type="file" accept=".json" className="hidden" onChange={onImport} />
             </label>
           </div>
@@ -37,9 +34,9 @@ export const WorkspaceActions: React.FC<WorkspaceActionsProps> = React.memo(
         <button
           disabled={totalTrips === 0}
           onClick={onShare}
-          className="btn btn-primary btn-sm w-full shadow-md text-xs"
+          className="btn btn-primary w-full shadow-lg"
         >
-          <Share2 className="w-4 h-4" /> Share Active Trip
+          <Share2 className="w-5 h-5" /> Share Active Trip
         </button>
       </div>
     );
