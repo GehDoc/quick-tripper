@@ -138,7 +138,7 @@ export default function Home() {
       </aside>
 
       {/* Main Area: Fixed height dashboard */}
-      <div className="flex-grow flex flex-col min-h-0 bg-base-200/30">
+      <div className="flex-grow flex flex-col min-h-0 min-w-0 bg-base-200/30">
         <GenerationForm
           prompt={prompt}
           onPromptChange={setPrompt}
@@ -147,7 +147,7 @@ export default function Home() {
           error={error}
         />
 
-        <main className="flex-grow p-4 md:p-6 flex flex-col min-h-0 overflow-y-auto xl:overflow-hidden">
+        <main className="flex-grow flex flex-col min-h-0 overflow-y-auto xl:overflow-hidden">
           {activeTrip ? (
             <TripViewer trip={activeTrip} onDelete={handleDeleteTrip} />
           ) : (

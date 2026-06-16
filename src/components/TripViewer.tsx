@@ -37,9 +37,9 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
   }
 
   return (
-    <div className="flex flex-col xl:grid xl:grid-cols-12 xl:flex-grow xl:overflow-hidden bg-base-100 rounded-2xl shadow-2xl border border-base-300">
-      {/* Right Pane (Map): Moves to top on mobile/tablet */}
-      <div className="order-1 xl:order-2 xl:col-span-8 2xl:col-span-9 bg-base-300/10 relative min-h-[300px] sm:min-h-[400px] xl:min-h-0 aspect-video xl:aspect-auto border-b xl:border-b-0 border-base-300">
+    <div className="flex-grow flex flex-col xl:grid xl:grid-cols-12 xl:flex-grow xl:overflow-hidden bg-base-100 border border-base-300">
+      {/* Right Pane (Map): Landscape first, side-by-side above XL */}
+      <div className="order-1 xl:order-2 xl:col-span-8 2xl:col-span-9 bg-base-300/10 relative min-h-[400px] xl:min-h-0 aspect-video xl:aspect-auto border-b xl:border-b-0 border-base-300">
         {embedUrl ? (
           <div className="absolute inset-0 flex flex-col">
             <div className="flex-grow bg-base-300/30 overflow-hidden relative">
@@ -54,7 +54,7 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
                 href={mapUrl || '#'}
                 target="_blank"
                 rel="noreferrer"
-                className="btn btn-secondary btn-sm absolute bottom-4 xl:bottom-6 left-1/2 -translate-x-1/2 gap-2 shadow-2xl opacity-90 hover:opacity-100 transition-all border-none scale-100 xl:scale-110 px-6 xl:px-8 z-10"
+                className="btn btn-secondary btn-sm absolute bottom-4 xl:bottom-8 left-1/2 -translate-x-1/2 gap-2 shadow-2xl opacity-90 hover:opacity-100 transition-all border-none scale-100 xl:scale-110 px-6 xl:px-10 z-10"
               >
                 <Logo className="w-4 h-4" /> Open Detailed Route
               </a>
@@ -67,7 +67,7 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
         )}
       </div>
 
-      {/* Left Pane (Notes): Stays below map on small screens, side-by-side on XL */}
+      {/* Left Pane (Notes): Below on mobile/tablet, side-by-side above XL */}
       <div className="order-2 xl:order-1 xl:col-span-4 2xl:col-span-3 flex flex-col xl:border-r border-base-300 min-h-0">
         <div className="bg-base-200/50 px-6 py-4 border-b border-base-300 flex justify-between items-center flex-none">
           <div className="flex flex-col">
@@ -87,7 +87,7 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
           </button>
         </div>
 
-        <div className="xl:flex-grow xl:overflow-y-auto p-6 md:p-8 custom-scrollbar bg-base-100">
+        <div className="xl:flex-grow xl:overflow-y-auto p-6 lg:p-8 custom-scrollbar bg-base-100">
           <div className="mb-6">
             <span className="text-[10px] uppercase font-bold opacity-40">Departing from</span>
             <p className="text-xs font-medium text-primary leading-tight">{trip.start}</p>

@@ -18,8 +18,8 @@ export const GenerationForm: React.FC<GenerationFormProps> = ({
 }) => {
   return (
     <div className="bg-base-100 shadow-sm border-b border-base-200 p-4 sticky top-0 z-20">
-      <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-end gap-4">
-        <div className="flex-grow w-full">
+      <div className="flex flex-col lg:flex-row items-end gap-4">
+        <div className="flex-grow w-full min-w-0">
           <label className="label py-0 mb-1">
             <span className="label-text text-[10px] font-black uppercase tracking-widest opacity-50">
               Plan your journey
@@ -33,7 +33,7 @@ export const GenerationForm: React.FC<GenerationFormProps> = ({
             className="textarea textarea-bordered w-full min-h-[60px] max-h-[60px] focus:outline-none text-sm resize-none"
           />
         </div>
-        <div className="flex flex-col items-end gap-2 w-full md:w-auto">
+        <div className="flex flex-col items-end gap-2 w-full lg:w-auto flex-none">
           {error && <p className="text-error text-[10px] font-bold truncate max-w-xs">{error}</p>}
           <button
             onClick={onGenerate}
