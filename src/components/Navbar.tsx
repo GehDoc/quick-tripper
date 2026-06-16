@@ -1,45 +1,108 @@
 import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { FaKey as Key } from 'react-icons/fa';
 import { SiGithub as GitHub } from 'react-icons/si';
+import { IoInformationCircleOutline, IoBookOutline, IoMapOutline } from 'react-icons/io5';
 import { VERSION, REPO_URL } from '@/utils/version';
 import { Logo } from '@/components/Logo';
 
 interface NavbarProps {
-  apiKey: string;
-  onApiKeyChange: (value: string) => void;
+  apiKey?: string;
+  onApiKeyChange?: (value: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChange }) => {
+  const pathname = usePathname();
+
+  const navLinks = [
+    { href: '/', label: 'Planner', icon: <IoMapOutline className="w-4 h-4" /> },
+    { href: '/about', label: 'About', icon: <IoInformationCircleOutline className="w-4 h-4" /> },
+    { href: '/how-to', label: 'How-to', icon: <IoBookOutline className="w-4 h-4" /> },
+  ];
+
   return (
-    <div className="navbar bg-base-100 shadow-xl rounded-box justify-between gap-4 p-4">
-      <div className="flex items-center gap-3">
-        <Logo className="text-primary w-10 h-10" />
-        <div className="flex flex-col">
-          <span className="font-bold text-xl tracking-tight">Quick-tripper</span>
-          <div className="flex items-center gap-3 text-[10px] text-base-content/50">
-            <span>v{VERSION}</span>
-            <a
-              href={REPO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1 hover:text-primary transition-colors"
-            >
-              <GitHub className="w-3 h-3" /> GitHub
-            </a>
+    <div className="navbar bg-base-100 shadow-xl rounded-box justify-between gap-4 p-2 px-4">
+      <div className="flex items-center gap-4">
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <Logo className="text-primary w-8 h-8" />
+          <div className="hidden sm:flex flex-col">
+            <span className="font-bold text-lg tracking-tight leading-none">Quick-tripper</span>
+            <span className="text-[10px] text-base-content/40">v{VERSION}</span>
           </div>
+        </Link>
+
+        <div className="hidden md:flex items-center gap-1 ml-4">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`btn btn-sm btn-ghost gap-2 ${pathname === link.href ? 'btn-active bg-base-200' : ''}`}
+            >
+              {link.icon}
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
-      <div className="form-control">
-        <label className="input input-bordered flex items-center gap-2 input-sm">
-          <Key className="w-4 h-4 opacity-60" />
-          <input
-            type="password"
-            placeholder="HuggingFace API Token"
-            value={apiKey}
-            onChange={(e) => onApiKeyChange(e.target.value)}
-            className="w-full max-w-xs"
-          />
-        </label>
+
+      <div className="flex items-center gap-2">
+        {onApiKeyChange && (
+          <div className="form-control hidden xs:block">
+            <label className="input input-bordered flex items-center gap-2 input-sm">
+              <Key className="w-3 h-3 opacity-60" />
+              <input
+                type="password"
+                placeholder="HF Token"
+                value={apiKey}
+                onChange={(e) => onApiKeyChange(e.target.value)}
+                className="w-24 lg:w-40"
+              />
+            </label>
+          </div>
+        )}
+
+        <a
+          href={REPO_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="btn btn-sm btn-ghost btn-circle"
+          title="GitHub Repository"
+        >
+          <GitHub className="w-4 h-4" />
+        </a>
+
+        {/* Mobile Nav Toggle */}
+        <div className="dropdown dropdown-end md:hidden">
+          <label tabIndex={0} className="btn btn-sm btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="4 6h16M4 12h16M4 18h7"
+              />
+            </svg>
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className={pathname === link.href ? 'active' : ''}>
+                  {link.icon} {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

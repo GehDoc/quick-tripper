@@ -33,13 +33,13 @@ export const GenerationForm: React.FC<GenerationFormProps> = ({
           <button
             onClick={onGenerate}
             disabled={isLoading || !prompt.trim()}
-            className="btn btn-primary w-full md:w-auto self-end px-8"
+            className="btn btn-primary w-full md:w-auto self-end px-10 shadow-lg"
           >
             {isLoading ? (
               <span className="loading loading-spinner loading-sm"></span>
             ) : (
               <>
-                <Send className="w-4 h-4 mr-2" /> Generate Itinerary
+                <Send className="w-4 h-4 mr-2" /> Plan Trip
               </>
             )}
           </button>
