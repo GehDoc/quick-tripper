@@ -17,38 +17,34 @@ export const GenerationForm: React.FC<GenerationFormProps> = ({
   error,
 }) => {
   return (
-    <div className="card bg-base-100 shadow-xl border border-base-200">
-      <div className="card-body gap-4 p-6">
-        <h2 className="text-lg font-bold flex items-center gap-2">
-          <IoChatboxEllipsesOutline className="text-primary" /> Describe your journey
-        </h2>
-
-        <div className="form-control">
+    <div className="bg-base-100 shadow-sm border-b border-base-200 p-4 sticky top-0 z-20">
+      <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-end gap-4">
+        <div className="flex-grow w-full">
+          <label className="label py-0 mb-1">
+            <span className="label-text text-[10px] font-black uppercase tracking-widest opacity-50">
+              Plan your journey
+            </span>
+          </label>
           <textarea
-            placeholder="Ex: From Paris to Mont Saint-Michel. I want to visit the abbey and walk the bay at low tide."
+            placeholder="Ex: From Paris to Mont Saint-Michel..."
             value={prompt}
             onChange={(e) => onPromptChange(e.target.value)}
             disabled={isLoading}
-            className="textarea textarea-bordered w-full min-h-[120px] focus:outline-none resize-y text-base"
+            className="textarea textarea-bordered w-full min-h-[60px] max-h-[60px] focus:outline-none text-sm resize-none"
           />
         </div>
-
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-2">
-          {error && (
-            <p className="text-error text-xs font-medium bg-error/10 px-3 py-2 rounded-lg flex-grow">
-              {error}
-            </p>
-          )}
+        <div className="flex flex-col items-end gap-2 w-full md:w-auto">
+          {error && <p className="text-error text-[10px] font-bold truncate max-w-xs">{error}</p>}
           <button
             onClick={onGenerate}
             disabled={isLoading || !prompt.trim()}
-            className="btn btn-primary w-full md:w-auto px-10 shadow-lg ml-auto"
+            className="btn btn-primary btn-sm px-10 shadow-md whitespace-nowrap h-[60px]"
           >
             {isLoading ? (
-              <span className="loading loading-spinner loading-sm"></span>
+              <span className="loading loading-spinner loading-xs"></span>
             ) : (
               <>
-                <Send className="w-4 h-4 mr-2" /> Plan Trip
+                <Send className="w-3.5 h-3.5 mr-2" /> Plan Trip
               </>
             )}
           </button>

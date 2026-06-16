@@ -116,9 +116,9 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div className="app-workspace flex-col lg:flex-row overflow-hidden">
       {/* Sidebar: Locked in the rigid frame */}
-      <aside className="app-sidebar w-full lg:w-80 xl:w-96">
+      <aside className="app-sidebar w-full lg:w-80 flex-none">
         <div className="p-6 border-b border-base-200">
           <WorkspaceActions
             totalTrips={totalTrips}
@@ -137,25 +137,27 @@ export default function Home() {
         </div>
       </aside>
 
-      {/* Main Content Area: The only part allowed to scroll/bounce */}
-      <main className="app-content p-4 md:p-10 flex flex-col gap-10">
-        <div className="max-w-5xl mx-auto w-full space-y-8 flex-grow">
-          <GenerationForm
-            prompt={prompt}
-            onPromptChange={setPrompt}
-            onGenerate={handleGeneration}
-            isLoading={isLoading}
-            error={error}
-          />
+      {/* Main Area: Fixed height dashboard */}
+      <div className="flex-grow flex flex-col min-h-0 bg-base-200/30">
+        <GenerationForm
+          prompt={prompt}
+          onPromptChange={setPrompt}
+          onGenerate={handleGeneration}
+          isLoading={isLoading}
+          error={error}
+        />
 
+        <main className="flex-grow p-4 md:p-6 flex flex-col min-h-0 overflow-y-auto xl:overflow-hidden">
           {activeTrip ? (
             <TripViewer trip={activeTrip} onDelete={handleDeleteTrip} />
           ) : (
-            <EmptyState />
+            <div className="flex-grow flex flex-col items-center justify-center space-y-8 py-10">
+              <EmptyState />
+              <Footer />
+            </div>
           )}
-        </div>
-        <Footer />
-      </main>
-    </>
+        </main>
+      </div>
+    </div>
   );
 }
