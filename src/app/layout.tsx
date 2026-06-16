@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <header className="z-50 w-full bg-base-100/90 backdrop-blur-md border-b border-base-200 flex-none">
               <NavbarWrapper />
             </header>
-            <main className="flex-grow flex flex-col overflow-hidden">{children}</main>
+            <main className="flex-grow flex flex-col overflow-y-auto">{children}</main>
           </div>
         </AppProvider>
       </body>
