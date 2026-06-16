@@ -22,7 +22,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChang
   ];
 
   return (
-    <div className="navbar bg-base-100 shadow-xl rounded-box justify-between gap-4 p-2 px-4">
+    <div className="navbar bg-transparent justify-between gap-4 p-2 px-6 min-h-[64px]">
       <div className="flex items-center gap-4">
         <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <Logo className="text-primary w-8 h-8" />
@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChang
 
       <div className="flex items-center gap-2">
         {onApiKeyChange && (
-          <div className="form-control hidden xs:block">
+          <div className="form-control">
             <label className="input input-bordered flex items-center gap-2 input-sm">
               <Key className="w-3 h-3 opacity-60" />
               <input
@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(({ apiKey, onApiKeyChang
                 placeholder="HF Token"
                 value={apiKey}
                 onChange={(e) => onApiKeyChange(e.target.value)}
-                className="w-24 lg:w-40"
+                className="w-32 sm:w-40 lg:w-48"
               />
             </label>
           </div>

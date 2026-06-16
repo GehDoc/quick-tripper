@@ -12,6 +12,7 @@ import { WorkspaceActions } from '@/components/WorkspaceActions';
 import { TripViewer } from '@/components/TripViewer';
 import { TripHistory } from '@/components/TripHistory';
 import { trackEvent, ANALYTICS_EVENTS } from '@/utils/analytics';
+import { Footer } from '@/components/Footer';
 
 export default function Home() {
   const {
@@ -32,7 +33,7 @@ export default function Home() {
 
   const handleGeneration = useCallback(async () => {
     if (!apiKey) return setError('API Key required.');
-    if (!prompt) return setError('Trip description required.');
+    if (!prompt.trim()) return setError('Trip description required.');
 
     setIsLoading(true);
     setError('');
@@ -108,17 +109,17 @@ export default function Home() {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex-grow flex items-center justify-center">
         <span className="loading loading-spinner loading-lg text-primary"></span>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen lg:h-[calc(100vh-64px)] overflow-hidden">
-      {/* Sidebar: Full height on desktop */}
-      <aside className="w-full lg:w-80 bg-base-100 border-r border-base-300 flex flex-col shadow-inner z-10 overflow-y-auto lg:overflow-visible">
-        <div className="p-4 border-b border-base-200">
+    <>
+      {/* Sidebar: Locked in the rigid frame */}
+      <aside className="app-sidebar w-full lg:w-80 xl:w-96">
+        <div className="p-6 border-b border-base-200">
           <WorkspaceActions
             totalTrips={totalTrips}
             onExport={handleJsonExport}
@@ -126,7 +127,7 @@ export default function Home() {
             onShare={handleUrlShare}
           />
         </div>
-        <div className="flex-grow lg:overflow-y-auto">
+        <div className="flex-grow overflow-y-auto">
           <TripHistory
             trips={trips}
             activeIndex={activeIndex}
@@ -136,9 +137,9 @@ export default function Home() {
         </div>
       </aside>
 
-      {/* Main Content Area: Scrollable */}
-      <main className="flex-grow p-4 md:p-8 overflow-y-auto bg-base-200/50">
-        <div className="max-w-4xl mx-auto space-y-6">
+      {/* Main Content Area: The only part allowed to scroll/bounce */}
+      <main className="app-content p-4 md:p-10 flex flex-col gap-10">
+        <div className="max-w-5xl mx-auto w-full space-y-8 flex-grow">
           <GenerationForm
             prompt={prompt}
             onPromptChange={setPrompt}
@@ -153,7 +154,8 @@ export default function Home() {
             <EmptyState />
           )}
         </div>
+        <Footer />
       </main>
-    </div>
+    </>
   );
 }
