@@ -21,8 +21,8 @@ export const TripHistory: React.FC<TripHistoryProps> = ({
 
   return (
     <div className="flex flex-col gap-3 p-3">
-      <h3 className="px-4 text-xs font-black uppercase tracking-widest text-base-content/50 flex items-center gap-2 mb-2">
-        <IoTimeOutline className="w-4 h-4" /> Trip History
+      <h3 className="px-4 text-xs font-black uppercase tracking-widest text-base-content/60 flex items-center gap-2 mb-2">
+        <IoTimeOutline className="w-4 h-4 text-primary" /> Trip History
       </h3>
       <div className="menu menu-md w-full p-0 flex flex-col gap-2">
         {trips.map((trip, index) => (
@@ -39,8 +39,8 @@ export const TripHistory: React.FC<TripHistoryProps> = ({
                 {trip.title}
               </div>
               <div
-                className={`text-xs opacity-60 font-mono ${
-                  activeIndex === index ? 'text-primary-content/70' : ''
+                className={`text-xs font-mono font-medium ${
+                  activeIndex === index ? 'text-primary-content/80' : 'text-base-content/50'
                 }`}
               >
                 {trip.createdAt}

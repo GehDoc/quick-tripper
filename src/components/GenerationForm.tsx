@@ -21,7 +21,7 @@ export const GenerationForm: React.FC<GenerationFormProps> = ({
       <div className="flex flex-col lg:flex-row items-end gap-4">
         <div className="flex-grow w-full min-w-0">
           <label className="label py-0 mb-1.5">
-            <span className="label-text text-xs font-black uppercase tracking-widest opacity-60 flex items-center gap-2">
+            <span className="label-text text-xs font-black uppercase tracking-widest text-base-content/60 flex items-center gap-2">
               <IoChatboxEllipsesOutline className="text-primary w-4 h-4" /> Plan your journey
             </span>
           </label>

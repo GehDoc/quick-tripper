@@ -71,7 +71,7 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
       <div className="order-2 xl:order-1 xl:col-span-3 flex flex-col xl:border-r border-base-300 min-h-0">
         <div className="bg-base-200/50 px-6 py-5 border-b border-base-300 flex justify-between items-center flex-none">
           <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-widest font-black text-primary/60">
+            <span className="text-xs uppercase tracking-widest font-black text-primary/80">
               Arrival Details
             </span>
             <h2 className="text-base font-bold text-base-content/80 truncate">
@@ -89,7 +89,7 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
 
         <div className="xl:flex-grow xl:overflow-y-auto p-6 xl:p-10 custom-scrollbar bg-base-100">
           <div className="mb-8">
-            <span className="text-xs uppercase font-bold opacity-40 tracking-wider">
+            <span className="text-xs uppercase font-bold text-base-content/50 tracking-wider">
               Departing from
             </span>
             <p className="text-sm font-semibold text-primary mt-1">{trip.start}</p>

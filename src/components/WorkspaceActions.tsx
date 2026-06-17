@@ -1,5 +1,6 @@
 import React from 'react';
 import { FiDownload as Download, FiUpload as Upload, FiShare2 as Share2 } from 'react-icons/fi';
+import { IoDesktopOutline } from 'react-icons/io5';
 
 interface WorkspaceActionsProps {
   totalTrips: number;
@@ -13,8 +14,8 @@ export const WorkspaceActions: React.FC<WorkspaceActionsProps> = React.memo(
     return (
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <h2 className="text-xs tracking-widest font-black uppercase opacity-50 mb-3 px-1">
-            Local Workspace
+          <h2 className="text-xs tracking-widest font-black uppercase text-base-content/60 mb-3 px-1 flex items-center gap-2">
+            <IoDesktopOutline className="w-4 h-4 text-primary" /> Local Workspace
           </h2>
           <div className="flex gap-2">
             <button
