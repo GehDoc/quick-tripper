@@ -11,6 +11,7 @@ import { GenerationForm } from '@/components/GenerationForm';
 import { WorkspaceActions } from '@/components/WorkspaceActions';
 import { TripViewer } from '@/components/TripViewer';
 import { TripHistory } from '@/components/TripHistory';
+import { TripNavigator } from '@/components/TripNavigator'; // Import TripNavigator
 import { trackEvent, ANALYTICS_EVENTS } from '@/utils/analytics';
 import { Footer } from '@/components/Footer';
 
@@ -117,6 +118,15 @@ export default function Home() {
     [deleteTrip],
   );
 
+  // Navigator Handlers
+  const handleNextTrip = useCallback(() => {
+    setActiveIndex(Math.min(activeIndex + 1, totalTrips - 1));
+  }, [activeIndex, setActiveIndex, totalTrips]);
+
+  const handlePrevTrip = useCallback(() => {
+    setActiveIndex(Math.max(activeIndex - 1, 0));
+  }, [activeIndex, setActiveIndex]);
+
   if (!isLoaded) {
     return (
       <div className="flex-grow flex items-center justify-center">
@@ -138,12 +148,27 @@ export default function Home() {
           />
         </div>
         <div className="flex-grow overflow-y-auto">
-          <TripHistory
-            trips={trips}
-            activeIndex={activeIndex}
-            onSelect={setActiveIndex}
-            onDelete={handleDeleteTrip}
-          />
+          {/* Trip History List for large screens */}
+          <div className="hidden lg:block">
+            <TripHistory
+              trips={trips}
+              activeIndex={activeIndex}
+              onSelect={setActiveIndex}
+              onDelete={handleDeleteTrip}
+            />
+          </div>
+          {/* Trip Navigator for small screens (replaces history list) */}
+          <div className="lg:hidden">
+            {activeTrip && totalTrips > 0 && (
+              <TripNavigator
+                activeTrip={activeTrip}
+                activeIndex={activeIndex}
+                totalTrips={totalTrips}
+                onNext={handleNextTrip}
+                onPrev={handlePrevTrip}
+              />
+            )}
+          </div>
         </div>
       </aside>
 
