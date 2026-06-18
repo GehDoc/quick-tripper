@@ -147,7 +147,7 @@ export default function Home() {
           error={error}
         />
 
-        <main className="flex-grow flex flex-col min-h-0 overflow-y-auto xl:overflow-hidden">
+        <main className="flex-grow flex flex-col min-h-0 overflow-y-auto 2xl:overflow-hidden">
           {activeTrip ? (
             <TripViewer trip={activeTrip} onDelete={handleDeleteTrip} />
           ) : (
