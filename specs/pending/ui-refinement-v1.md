@@ -31,11 +31,11 @@ This specification addresses the identified flaws in the current "Point-to-Point
 ### Phase 1: User Flaws & Input Refactoring
 
 - [ ] Address the list of flaws provided by the user.
-- [ ] Refactor `GenerationForm` with explicit "Start" and "Arrival" fields.
+- [x] (WON'T DO) Refactor `GenerationForm` with explicit "Start" and "Arrival" fields.
 
 ### Phase 2: Workflow & Layout
 
-- [ ] Implement the "Plan Next Leg" feature.
+- [x] (WON'T DO) Implement the "Plan Next Leg" feature.
 - [ ] Fix the mobile sidebar/drawer layout issue.
 
 ### Phase 3: Polish & Validation

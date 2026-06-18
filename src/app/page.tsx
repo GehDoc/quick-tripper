@@ -32,11 +32,20 @@ export default function Home() {
   const [error, setError] = useState<string>('');
 
   const handleGeneration = useCallback(async () => {
-    if (!apiKey) return setError('API Key required.');
-    if (!prompt.trim()) return setError('Trip description required.');
+    if (!apiKey) {
+      setError('API Key required.');
+      trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_FAILED, { reason: 'api_key_missing' });
+      return;
+    }
+    if (!prompt.trim()) {
+      setError('Trip description required.');
+      trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_FAILED, { reason: 'prompt_missing' });
+      return;
+    }
 
     setIsLoading(true);
     setError('');
+    trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_STARTED);
 
     try {
       const tripDetails = await generateItinerary({ apiKey, prompt });
@@ -54,11 +63,12 @@ export default function Home() {
       ]);
 
       setPrompt('');
-      trackEvent(ANALYTICS_EVENTS.TRIP_PLANNED, { title: tripDetails.title });
+      trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_SUCCESS, { title: tripDetails.title });
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : 'An error occurred during generation.';
       setError(errorMessage);
+      trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_FAILED, { error_message: errorMessage });
     } finally {
       setIsLoading(false);
     }

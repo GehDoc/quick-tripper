@@ -23,8 +23,10 @@ export const trackEvent = (
 };
 
 export const ANALYTICS_EVENTS = {
-  TRIP_PLANNED: 'trip_planned',
+  TRIP_GENERATION_SUCCESS: 'trip_generation_success',
   TRIP_SHARED: 'trip_shared',
   TRIP_EXPORTED: 'trip_exported',
   TRIP_DELETED: 'trip_deleted',
+  TRIP_GENERATION_STARTED: 'trip_generation_started',
+  TRIP_GENERATION_FAILED: 'trip_generation_failed',
 };
