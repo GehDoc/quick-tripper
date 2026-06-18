@@ -39,7 +39,7 @@ export const TripViewer: React.FC<TripViewerProps> = React.memo(({ trip, onDelet
   return (
     <div className="flex-grow flex flex-col 2xl:grid 2xl:grid-cols-12 2xl:flex-grow 2xl:overflow-hidden bg-base-100 border border-base-300">
       {/* Right Pane (Map): Landscape first, side-by-side above 2XL */}
-      <div className="order-1 2xl:order-2 2xl:col-span-8 bg-base-300/10 relative min-h-[400px] 2xl:min-h-0 aspect-video 2xl:aspect-auto border-b 2xl:border-b-0 border-base-300">
+      <div className="order-1 2xl:order-2 2xl:col-span-8 bg-base-300/10 relative min-h-[400px] max-h-[50vh] 2xl:max-h-none 2xl:min-h-0 aspect-video 2xl:aspect-auto border-b 2xl:border-b-0 border-base-300">
         {embedUrl ? (
           <div className="absolute inset-0 flex flex-col">
             <div className="flex-grow bg-base-300/30 overflow-hidden relative">
