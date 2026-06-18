@@ -45,6 +45,6 @@ This specification addresses the identified flaws in the current "Point-to-Point
 
 ## 4. Success Criteria
 
-- [ ] All user-identified flaws are resolved.
-- [ ] The "Point-to-Point" workflow feels intuitive and robust.
-- [ ] The app is highly usable on both desktop and mobile.
+- [x] All user-identified flaws are resolved.
+- [x] The "Point-to-Point" workflow feels intuitive and robust.
+- [x] The app is highly usable on both desktop and mobile.
