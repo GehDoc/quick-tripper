@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:3002',
+    baseURL: 'http://localhost:3001',
     trace: 'on-first-retry',
   },
   projects: [
@@ -18,9 +18,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npx next dev -p 3002',
-    url: 'http://localhost:3002',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    command: 'PLAYWRIGHT_TEST=true npm run build && npx serve@latest out --listen 3001',
+    url: 'http://localhost:3001',
+    reuseExistingServer: false, // Always start a fresh server for tests
+    timeout: 180000, // Increased timeout for build and start
   },
 });

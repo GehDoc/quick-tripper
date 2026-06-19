@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('golden path - generate trip', async ({ page }) => {
   await page.goto('/');
-
+  await page.waitForLoadState('networkidle'); // Ensure page is fully loaded and stable
   // Mock Hugging Face API (OpenAI compatible)
   await page.route('**/v1/chat/completions', (route) =>
     route.fulfill({
@@ -25,14 +25,16 @@ test('golden path - generate trip', async ({ page }) => {
     }),
   );
 
-  // Enter API Key (Restored Hugging Face placeholder)
-  await page.getByPlaceholder('HuggingFace API Token').fill('hf_dummy-key');
+  // Enter API Key
+  await page.getByPlaceholder('HF Token').fill('hf_dummy-key');
 
   // Enter Prompt (Textarea)
-  await page.getByPlaceholder(/Ex: A 4-day hike itinerary/i).fill('Swiss Alps');
+  const promptTextarea = page.getByPlaceholder('Ex: From Paris to Mont Saint-Michel...');
+  await expect(promptTextarea).toBeVisible(); // Explicitly wait for visibility
+  await promptTextarea.fill('Swiss Alps');
 
   // Send
-  await page.getByRole('button', { name: /Generate Itinerary/i }).click();
+  await page.getByRole('button', { name: 'Plan Trip' }).click();
 
   // Verify Heading (Rendered in Navigator) - Using .first() or specific role to avoid ambiguity
   await expect(page.getByRole('heading', { name: 'Golden Trip' })).toBeVisible();
