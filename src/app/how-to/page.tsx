@@ -37,6 +37,12 @@ export default function HowTo() {
                 . Paste it into the top bar. This key is stored ONLY in your browser&apos;s local
                 storage.
               </p>
+              <p className="text-warning text-lg font-bold leading-relaxed">
+                <strong className="text-error">Warning:</strong> Your API key is stored locally in
+                your browser. While this keeps Quick-tripper serverless, it means your key could be
+                exposed if your browser session is compromised (e.g., via Cross-Site Scripting -
+                XSS). Treat your API key like a password.
+              </p>
             </div>
           </section>
 
