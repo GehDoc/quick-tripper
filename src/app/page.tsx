@@ -3,15 +3,17 @@
 import React, { useState, useCallback } from 'react';
 
 // Standardized Hook, Service, and Share Utilities
-import { useTrips } from '@/hooks/useTrips';
+import { useApp } from '@/hooks/useApp';
 import { generateItinerary } from '@/services/ai';
 import { generateShareUrl } from '@/utils/share';
 import { EmptyState } from '@/components/EmptyState';
-import { Navbar } from '@/components/Navbar';
 import { GenerationForm } from '@/components/GenerationForm';
 import { WorkspaceActions } from '@/components/WorkspaceActions';
-import { TripNavigator } from '@/components/TripNavigator';
 import { TripViewer } from '@/components/TripViewer';
+import { TripHistory } from '@/components/TripHistory';
+import { TripNavigator } from '@/components/TripNavigator'; // Import TripNavigator
+import { trackEvent, ANALYTICS_EVENTS } from '@/utils/analytics';
+import { Footer } from '@/components/Footer';
 
 export default function Home() {
   const {
@@ -23,28 +25,28 @@ export default function Home() {
     deleteTrip,
     totalTrips,
     isLoaded,
-  } = useTrips();
+    apiKey,
+  } = useApp();
 
   const [prompt, setPrompt] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
-  const [apiKey, setApiKey] = useState<string>(() =>
-    typeof window !== 'undefined' ? localStorage.getItem('hf_api_key') || '' : '',
-  );
-
-  const handleApiKeyChange = useCallback((key: string) => {
-    const trimmedKey = key.trim();
-    setApiKey(trimmedKey);
-    localStorage.setItem('hf_api_key', trimmedKey);
-  }, []);
-
   const handleGeneration = useCallback(async () => {
-    if (!apiKey) return setError('API Key required.');
-    if (!prompt) return setError('Destination description required.');
+    if (!apiKey) {
+      setError('API Key required.');
+      trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_FAILED, { reason: 'api_key_missing' });
+      return;
+    }
+    if (!prompt.trim()) {
+      setError('Trip description required.');
+      trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_FAILED, { reason: 'prompt_missing' });
+      return;
+    }
 
     setIsLoading(true);
     setError('');
+    trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_STARTED);
 
     try {
       const tripDetails = await generateItinerary({ apiKey, prompt });
@@ -62,10 +64,12 @@ export default function Home() {
       ]);
 
       setPrompt('');
+      trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_SUCCESS, { title: tripDetails.title });
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : 'An error occurred during generation.';
       setError(errorMessage);
+      trackEvent(ANALYTICS_EVENTS.TRIP_GENERATION_FAILED, { error_message: errorMessage });
     } finally {
       setIsLoading(false);
     }
@@ -76,6 +80,7 @@ export default function Home() {
     const shareUrl = generateShareUrl(activeTrip);
     navigator.clipboard.writeText(shareUrl);
     alert('Compressed share link copied to clipboard!');
+    trackEvent(ANALYTICS_EVENTS.TRIP_SHARED, { trip_id: activeTrip.id });
   }, [activeTrip]);
 
   const handleJsonExport = useCallback(() => {
@@ -84,6 +89,7 @@ export default function Home() {
     downloadAnchor.setAttribute('href', dataStr);
     downloadAnchor.setAttribute('download', `road-trips-${Date.now()}.json`);
     downloadAnchor.click();
+    trackEvent(ANALYTICS_EVENTS.TRIP_EXPORTED, { count: trips.length });
   }, [trips]);
 
   const handleJsonImport = useCallback(
@@ -104,36 +110,36 @@ export default function Home() {
     [addTrips],
   );
 
-  const handleNext = useCallback(
-    () => setActiveIndex(activeIndex + 1),
-    [activeIndex, setActiveIndex],
+  const handleDeleteTrip = useCallback(
+    (id: string) => {
+      deleteTrip(id);
+      trackEvent(ANALYTICS_EVENTS.TRIP_DELETED, { trip_id: id });
+    },
+    [deleteTrip],
   );
-  const handlePrev = useCallback(
-    () => setActiveIndex(activeIndex - 1),
-    [activeIndex, setActiveIndex],
-  );
+
+  // Navigator Handlers
+  const handleNextTrip = useCallback(() => {
+    setActiveIndex(Math.min(activeIndex + 1, totalTrips - 1));
+  }, [activeIndex, setActiveIndex, totalTrips]);
+
+  const handlePrevTrip = useCallback(() => {
+    setActiveIndex(Math.max(activeIndex - 1, 0));
+  }, [activeIndex, setActiveIndex]);
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex-grow flex items-center justify-center">
         <span className="loading loading-spinner loading-lg text-primary"></span>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-base-200 p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <Navbar apiKey={apiKey} onApiKeyChange={handleApiKeyChange} />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <GenerationForm
-            prompt={prompt}
-            onPromptChange={setPrompt}
-            onGenerate={handleGeneration}
-            isLoading={isLoading}
-            error={error}
-          />
+    <div className="app-workspace flex-col lg:flex-row overflow-hidden">
+      {/* Sidebar: Locked in the rigid frame */}
+      <aside className="app-sidebar w-full lg:w-80 flex-none">
+        <div className="p-6 border-b border-base-200">
           <WorkspaceActions
             totalTrips={totalTrips}
             onExport={handleJsonExport}
@@ -141,20 +147,51 @@ export default function Home() {
             onShare={handleUrlShare}
           />
         </div>
-        {activeTrip ? (
-          <div className="space-y-4">
-            <TripNavigator
-              activeTrip={activeTrip}
+        <div className="flex-grow overflow-y-auto">
+          {/* Trip History List for large screens */}
+          <div className="hidden lg:block">
+            <TripHistory
+              trips={trips}
               activeIndex={activeIndex}
-              totalTrips={totalTrips}
-              onNext={handleNext}
-              onPrev={handlePrev}
+              onSelect={setActiveIndex}
+              onDelete={handleDeleteTrip}
             />
-            <TripViewer trip={activeTrip} onDelete={deleteTrip} />
           </div>
-        ) : (
-          <EmptyState />
-        )}
+          {/* Trip Navigator for small screens (replaces history list) */}
+          <div className="lg:hidden">
+            {activeTrip && totalTrips > 0 && (
+              <TripNavigator
+                activeTrip={activeTrip}
+                activeIndex={activeIndex}
+                totalTrips={totalTrips}
+                onNext={handleNextTrip}
+                onPrev={handlePrevTrip}
+              />
+            )}
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Area: Fixed height dashboard */}
+      <div className="flex-grow flex flex-col min-h-0 min-w-0 bg-base-200/30">
+        <GenerationForm
+          prompt={prompt}
+          onPromptChange={setPrompt}
+          onGenerate={handleGeneration}
+          isLoading={isLoading}
+          error={error}
+        />
+
+        <main className="flex-grow flex flex-col min-h-0 overflow-y-auto 2xl:overflow-hidden">
+          {activeTrip ? (
+            <TripViewer trip={activeTrip} onDelete={handleDeleteTrip} />
+          ) : (
+            <div className="flex-grow flex flex-col items-center justify-center space-y-8 py-10">
+              <EmptyState />
+              <Footer />
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );

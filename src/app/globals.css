@@ -2,18 +2,44 @@
 @plugin "daisyui";
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
 }
 
-/* In v4, keep your plugin overrides in standard utility utility scopes 
-  if you want to avoid strict build-time reference check crashes.
-*/
-body {
-  background-color: var(--bg-base-200, #f2f2f2);
-  color: var(--fallback-bc, initial);
-  min-height: 100vh;
+/* Rigid Application Frame */
+.app-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Workspace: Sidebar + Content Area */
+.app-workspace {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Locked Sidebar */
+.app-sidebar {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-base-100);
+  border-right: 1px solid var(--border-base-200);
+  overflow: hidden;
+}
+
+/* Elastic Content Area */
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  background-color: color-mix(in srgb, var(--bg-base-200), transparent 70%);
 }

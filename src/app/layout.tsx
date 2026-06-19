@@ -2,43 +2,52 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
-// Optimize typography loading directly from Google Fonts via Next.js
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
 });
 
-// Production SEO metadata architecture
 export const metadata: Metadata = {
-  metadataBase: new URL('https://gehdoc.github.io/quick-tripper'),
-  title: 'Quick-tripper — Serverless AI Itinerary Planner',
+  metadataBase: new URL('https://gehdoc.github.io/quick-tripper/'),
+  title: 'Quick-tripper — Private Point-to-Point AI Trip Planner',
   description:
-    'Generate, compress, and instantly share markdown travel itineraries completely client-side via Hugging Face.',
-  robots: 'index, follow',
-  icons: {
-    icon: '/icon.svg',
-    apple: '/icon.svg',
-  },
+    'Plan your journeys one-by-one with privacy-first AI. Free, serverless, and zero-tracking.',
+  keywords: ['Private AI Trip Planner', 'Point-to-Point Route Planner', 'Serverless Road Trip'],
+  icons: { icon: 'icon.svg', apple: 'icon.svg' },
 };
 
-// Explicit viewport rules to prevent layout scaling breaking on mobile devices
 export const viewport: Viewport = {
-  themeColor: '#4f46e5', // Matches your primary branding color
+  themeColor: '#4f46e5',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+import { NavbarWrapper } from '@/components/NavbarWrapper';
+import { AppProvider } from '@/hooks/useApp';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // 'data-theme' tells DaisyUI which default theme colors to map to your classes
-    <html lang="en" data-theme="light" className={`${inter.variable}`}>
-      <body className="font-sans antialiased selection:bg-primary/20">{children}</body>
+    <html lang="en" data-theme="light" className={inter.variable}>
+      <head>
+        {process.env.NODE_ENV === 'production' && (
+          <script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id="5dc1b700-3859-4cc3-9354-d98f461d39f8"
+          ></script>
+        )}
+      </head>
+      <body className="font-sans antialiased selection:bg-primary/20">
+        <AppProvider>
+          <div className="app-frame">
+            <header className="z-50 w-full bg-base-100/90 backdrop-blur-md border-b border-base-200 flex-none">
+              <NavbarWrapper />
+            </header>
+            <main className="flex-grow flex flex-col overflow-y-auto">{children}</main>
+          </div>
+        </AppProvider>
+      </body>
     </html>
   );
 }

@@ -45,7 +45,7 @@ describe('GenerationForm', () => {
         isLoading={false}
       />,
     );
-    const button = screen.getByText(/Generate Itinerary/i);
+    const button = screen.getByText(/Plan Trip/i);
     fireEvent.click(button);
     expect(handleGenerate).toHaveBeenCalled();
   });

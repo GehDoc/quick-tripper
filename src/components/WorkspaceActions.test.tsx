@@ -13,9 +13,9 @@ describe('WorkspaceActions', () => {
         onShare={() => {}}
       />,
     );
-    expect(screen.getByText(/Serverless Workspace/i)).toBeInTheDocument();
+    expect(screen.getByText(/Local Workspace/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Export/i })).toBeDisabled();
-    expect(screen.getByRole('button', { name: /Share Active Link/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /Share Active Trip/i })).toBeDisabled();
   });
 
   it('enables buttons when totalTrips > 0', () => {
@@ -28,7 +28,7 @@ describe('WorkspaceActions', () => {
       />,
     );
     expect(screen.getByRole('button', { name: /Export/i })).not.toBeDisabled();
-    expect(screen.getByRole('button', { name: /Share Active Link/i })).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: /Share Active Trip/i })).not.toBeDisabled();
   });
 
   it('calls onExport when Export button is clicked', () => {
@@ -55,7 +55,7 @@ describe('WorkspaceActions', () => {
         onShare={handleShare}
       />,
     );
-    fireEvent.click(screen.getByRole('button', { name: /Share Active Link/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Share Active Trip/i }));
     expect(handleShare).toHaveBeenCalled();
   });
 

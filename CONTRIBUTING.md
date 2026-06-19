@@ -14,6 +14,15 @@ Thank you for your interest in contributing! We follow a **Spec-Driven Developme
 - **No Inline Styles**: To ensure maintainability and style consistency, inline styles (`style={{ ... }}`) are prohibited in production components. Use Tailwind classes exclusively.
 - **Markdown Security**: All AI-generated content MUST be passed through the sanitization pipeline in `TripViewer.tsx`. Never use `dangerouslySetInnerHTML` or disable sanitization without a security review. Any new component added to the markdown renderer must be explicitly whitelisted in the sanitization schema.
 
+## 📊 Analytics & Privacy
+
+This project uses **Umami Analytics** for anonymous usage data collection. Our commitment to user privacy is paramount:
+
+- **Purpose**: We collect aggregated, anonymous data (like page views and feature usage events) to understand how the application is used and to guide future improvements.
+- **No PII**: No personally identifiable information (PII) is ever collected, stored, or shared. We do not track IP addresses, use cookies, or create persistent user profiles.
+- **Production Only**: Analytics are only active in the production build of the application.
+- **Transparency**: Refer to `docs/ARCHITECTURE.md` for a detailed breakdown of the specific events we track and our data governance principles.
+
 ## 🔄 Workflow & Automation
 
 ### 🚦 Type Safety & Commit Hooks
