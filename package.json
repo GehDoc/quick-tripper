@@ -7,7 +7,8 @@
   "author": "GehDoc",
   "license": "MIT",
   "funding": {
-    "url": "https://github.com/GehDoc/quick-tripper/?sponsor=1"
+    "type": "github",
+    "url": "https://github.com/sponsors/GehDoc"
   },
   "homepage": "https://gehdoc.github.io/quick-tripper/",
   "repository": {
